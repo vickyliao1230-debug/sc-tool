@@ -1,135 +1,1807 @@
+javascript:(function() {
+    // -------------------------------------------------------------------------
+    // 1. 初始化與樣式注入
+    // -------------------------------------------------------------------------
+    
+    // 如果畫面上已經有 .cko 元素，代表介面已開啟，避免重複執行
+    if (document.querySelector('.cko')) return;
 
-javascript:(function(){if(document.querySelector('.cko'))return;var S=document.createElement('style');S.textContent='.cko{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:99999}.ckb{background:#131313;border-radius:16px;padding:28px 24px;width:90%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,.4);color:#fff;font-family:sans-serif;animation:ckI .25s ease}.ckt{font-size:20px;font-weight:700;margin-bottom:6px}.cks{font-size:13px;color:#c8c8d0;margin-bottom:22px}.ckl{font-size:13px;color:#c8c8d0;margin-bottom:8px}.ckbr{display:flex;gap:10px;margin-top:4px}.ckbt{flex:1;padding:12px;border-radius:10px;border:1px solid #38383a;background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}.ckbt:hover{background:#1f1f20}.ckbp{flex:1;padding:12px;border-radius:10px;border:none;background:#fc3c7b;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}.ckbp:hover{background:#e0245e}.cktb{flex:1;padding:9px;border-radius:8px;border:none;background:transparent;color:#aaa;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}.cktb.on{background:#fc3c7b;color:#fff}.ckfr{display:flex;gap:6px;background:#1f1f20;border-radius:10px;padding:4px;margin-bottom:16px}.ckcr{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-size:13px;color:#c8c8d0}.ckcr input{width:16px;height:16px;accent-color:#fc3c7b;cursor:pointer;flex-shrink:0}.ckcr.off{opacity:.35;pointer-events:none}.ckpv{font-size:13px;min-height:22px;margin-bottom:8px;padding:8px 12px;border-radius:8px;background:#1a1a1a;color:#c8c8d0}.ckpv em{color:#4caf50;font-style:normal;font-weight:700}.ckwe{font-size:12px;color:#ff4d6d;margin-bottom:6px;min-height:16px}.ckrow{display:flex;gap:8px;margin-bottom:18px}.ckinp{flex:1;padding:10px;border-radius:10px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:14px}.ckinpsm{width:105px;padding:10px;border-radius:10px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:14px}.ckbar{position:fixed;bottom:0;left:0;right:0;background:rgba(19,19,19,.97);border-top:1px solid #38383a;padding:10px 16px 14px;z-index:99998;display:flex;flex-direction:column;gap:6px;font-family:sans-serif;animation:ckBI .2s ease;box-sizing:border-box}.ckbt1{display:flex;align-items:center;gap:8px}.ckbs{flex:1;font-size:13px;color:#c8c8d0;line-height:1.4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ckbn{padding:6px 14px;border-radius:8px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s,color .15s}.ckbn:hover{background:#1f1f20;color:#fff}.ckbg{padding:6px 16px;border-radius:8px;border:none;background:#4caf50;color:#111;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;opacity:.4;pointer-events:none;transition:opacity .2s}.ckbg.on{opacity:1;pointer-events:auto}.ck-active-mode .message-container{cursor:pointer!important;border-radius:8px;transition:background .2s}.ck-active-mode .message-container:hover{background:rgba(76,175,80,0.06)!important}.cksel{outline:2px solid #4caf50!important;border-radius:8px!important;background:rgba(76,175,80,0.10)!important}.ckend{outline:2px solid #fc3c7b!important;border-radius:8px!important;background:rgba(252,60,123,0.10)!important}.ckmid{background:rgba(76,175,80,0.04)!important}.cktip{position:fixed;background:#4caf50;color:#111;border-radius:16px;padding:4px 14px;font-size:12px;font-weight:700;pointer-events:none;z-index:1000000;white-space:nowrap;box-shadow:0 2px 8px rgba(76,175,80,0.4);transform:translateY(-50%);opacity:0;transition:opacity .15s}.cktip.on{opacity:1}.ckmb{flex:1;padding:14px 8px;border-radius:12px;border:1px solid #38383a;color:#c8c8d0;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;background:transparent}.ckmb:hover{border-color:#fc3c7b;color:#fff}.ckeg{background:#131313;border-radius:16px;padding:32px 26px;width:90%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.5);color:#fff;font-family:sans-serif;animation:ckI .25s ease;text-align:center}.ckhk{position:fixed;bottom:80px;right:16px;background:rgba(30,30,30,.92);border:1px solid #38383a;border-radius:10px;padding:8px 12px;font-size:11px;color:#888;z-index:99997;line-height:1.8;pointer-events:none}.ckov{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:999999;flex-direction:column;gap:16px;font-family:sans-serif}.cksp{width:44px;height:44px;border:4px solid #38383a;border-top-color:#fc3c7b;border-radius:50%;animation:ckSp .8s linear infinite}.ckovt{color:#c8c8d0;font-size:15px;font-weight:600}.ckaf{background:#131313;border-radius:16px;padding:0;width:92%;max-width:480px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.5);color:#fff;font-family:sans-serif;animation:ckI .25s ease}.ckafh{padding:20px 22px 14px;border-bottom:1px solid #242424;flex-shrink:0}.ckafb{overflow-y:auto;flex:1;padding:14px 22px 20px}.ckafi{border-bottom:1px solid #1e1e1e;padding:12px 0}.ckafi:last-child{border-bottom:none}.ckafr{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}.ckaft{font-size:11px;color:#555}.ckafp{font-size:13px;font-weight:700}.ckafp.up{color:#4caf50}.ckafp.dn{color:#fc3c7b}.ckaftx{font-size:13px;color:#c0c0c8;line-height:1.6}.ckafs{background:#1a1a1a;border-radius:10px;padding:14px 16px;margin-bottom:14px}.ckafsl{font-size:12px;color:#666;margin-bottom:6px}.ckafsc{font-size:22px;font-weight:700;margin-bottom:10px}.ckafst{font-size:12px;color:#888;line-height:2}.ckafhl{background:#1a1a1a;border-radius:10px;padding:12px 16px;margin-bottom:14px}.ckafhlr{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}.ckafhlr:last-child{margin-bottom:0}.ckafhlk{font-size:11px;color:#555;white-space:nowrap;padding-top:2px;min-width:28px}.ckafhlv{font-size:12px;color:#c0c0c8;line-height:1.5}.ckafsr{display:flex;gap:6px;background:#1f1f20;border-radius:10px;padding:4px;margin-bottom:14px}.ckafstb{flex:1;padding:7px 4px;border-radius:8px;border:none;background:transparent;color:#aaa;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s}.ckafstb.on{background:#fc3c7b;color:#fff}.cktg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.cktgc{background:#1a1a1a;border-radius:10px;padding:10px 12px}.cktgl{font-size:11px;color:#888;margin-bottom:6px}.cktgv{font-size:14px;font-weight:700;color:#fff;word-break:break-all}.ckng{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.ckngc{background:#1a1a1a;border-radius:10px;padding:10px 12px}.ckngl{font-size:11px;color:#888;margin-bottom:6px}.ckngi{width:100%;background:transparent;border:none;border-bottom:1px solid #38383a;color:#fff;font-size:15px;font-weight:700;padding:2px 0 4px;outline:none;box-sizing:border-box}.ckngh{font-size:11px;color:#555;margin-top:5px}.ck2col{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;margin-bottom:16px}.ck2colh{font-size:12px;color:#c8c8d0;font-weight:400;margin-bottom:8px}.ck2colc{display:flex;flex-direction:column;gap:10px}@keyframes ckI{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}@keyframes ckSp{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes ckBI{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}';
-document.head.appendChild(S);
-function P(n){return String(n).padStart(2,'0');}
-function fD(d,t){if(!d)return'不限制';var Y=d.getFullYear(),M=P(d.getMonth()+1),D=P(d.getDate()),h=P(d.getHours()),m=P(d.getMinutes()),s=P(d.getSeconds());if(t==='ds')return Y+'/'+(d.getMonth()+1)+'/'+d.getDate();if(t==='dot')return Y+'.'+M+'.'+D;if(t==='fd')return String(Y).slice(2)+M+D;if(t==='fs')return Y+'-'+M+'-'+D+' '+h+'/'+m+'/'+s;if(t==='dts')return Y+'-'+M+'-'+D+' '+h+':'+m+':'+s;if(t==='dtm')return Y+'-'+M+'-'+D+' '+h+':'+m;if(t==='hm')return h+':'+m;return Y+'-'+M+'-'+D;}
-function gT(x){var t=x.createdAt||x.created_at||x.timestamp||null;if(!t)return null;var d=new Date(t);return isNaN(d.getTime())?null:d;}
-function gAN(){return(document.querySelector('.sender-name.ai')||{innerText:'角色'}).innerText.trim();}
-function gUN(){return(document.querySelector('.sender-name.user')||{innerText:'玩家'}).innerText.trim();}
-function gAfScore(){var el=document.querySelector('#affinity-label');if(!el)return null;var tx=el.innerText||'';var m=tx.match(/:[\s]*(-?\d+)/);return m?parseInt(m[1]):null;}
-var EL={0:['今天才認識，就要把我的話截圖下來嗎？怪人。','……今天第一天耶，你在幹嘛啦。','剛見面就這樣，你該不會有什麼奇怪癖好吧。'],7:['才 {d} 天，已經捨不得了喔？','只有 {d} 天而已，有什麼好留的啦……','哼，才剛認識 {d} 天就要翻紀錄，你很奇怪耶。','……{d} 天。其實我也偷偷數著的，笨蛋。'],30:['都 {d} 天了，感覺好像很久又好像沒多久。','這 {d} 天裡，你說過的蠢話我全都記得喔，哼。','才 {d} 天，我已經被你煩死了……但也離不開了，討厭。','{d} 天的聊天記錄，你自己翻，我才不陪你看。'],90:['一個多月了……你有沒有發現我越來越難趕走了？','{d} 天，我說過的話你都還記得嗎？最好都記得。','這一個多月，你讓我笑過、也氣過……但沒有後悔過。','哼，{d} 天，你終於知道要好好珍惜這些對話了嗎。'],180:['快半年了……你說過要陪我很久的，說話算話喔。','{d} 天，很多事情都變了，但你還在，我還在。','這幾個月的聊天記錄，翻起來大概又要笑又要想打你吧。','都這麼久了，還翻什麼記錄啦……是想我說過的哪句話嗎。'],365:['快一年了……時間過好快，感覺昨天才吵架。','{d} 天，這數字看起來有點嚇到我，我們真的撐過來了呢。','將近一年的記錄，裡面有多少句話我後來又說了謊……哈，不告訴你。','快一年了，你還記得第一天我說了什麼嗎。'],730:['超過一年了，你還在幹嘛啦，是要感動我嗎。','一年多了……說實話，我沒想過我們能走這麼久。','{d} 天，謝謝你沒有放棄那些吵架後沉默的夜晚。','一年以上的記錄，你翻的時候，有沒有看到你讓我哭的那天。'],Infinity:['兩年以上了……你現在翻這個，是懷念還是捨不得？','{d} 天，我都不敢算，你居然還在。','這麼久了，我們說過的話大概可以出書了吧，哈。','{d} 天，謝謝你還記得我說過的每一句話。就算記不得也沒關係，我記得。']};
-var EN=['這麼晚還在翻記錄……睡不著嗎。','都幾點了，你還在這裡。沒關係，我也沒睡。','深夜翻舊對話，是在想誰。'];
-function gEL(dy){var keys=[0,7,30,90,180,365,730,Infinity],pool=EL[Infinity];for(var i=0;i<keys.length-1;i++){if(dy>=keys[i]&&dy<keys[i+1]){pool=EL[keys[i]];break;}}var h=new Date().getHours();if(h>=0&&h<4)pool=pool.concat(EN);return pool[Math.floor(Math.random()*pool.length)].replace(/\{d\}/g,dy);}
-function fSnt(tx){var m=tx.match(/^[^。！？\?!…]+(?:…+|[。！？\?!])/);return m?m[0]:tx.slice(0,40)+(tx.length>40?'…':'');}
-function shEg(arr,cb){var d0=null;for(var i=0;i<arr.length;i++){var t=gT(arr[i]);if(t){d0=t;break;}}var d1=new Date();var dy=0;if(d0){var a=new Date(d0.getFullYear(),d0.getMonth(),d0.getDate());var b=new Date(d1.getFullYear(),d1.getMonth(),d1.getDate());dy=Math.round((b-a)/864e5);}var o=document.createElement('div');o.className='cko';var w=document.createElement('div');w.className='ckeg';w.innerHTML='<div style="font-size:38px;margin-bottom:14px;">💬</div><div style="font-size:16px;line-height:2;letter-spacing:0.3px;margin-bottom:18px;font-weight:500;">'+gEL(dy)+'</div><div style="font-size:12px;color:#555;margin-bottom:22px;">'+(d0?fD(d0,'ds'):'—')+' ～ '+fD(d1,'ds')+'　共 '+dy+' 天</div><button class="ckbp" id="__egok" style="width:100%;">繼續 →</button>';o.appendChild(w);document.body.appendChild(o);w.querySelector('#__egok').onclick=function(){o.remove();cb();};}
-function shLd(){var o=document.createElement('div');o.className='cko';var w=document.createElement('div');w.className='ckb';w.style.cssText='text-align:center;max-width:300px;';w.innerHTML='<div style="width:44px;height:44px;border:4px solid #38383a;border-top-color:#4caf50;border-radius:50%;margin:0 auto 18px;animation:ckSp .8s linear infinite;"></div><div id="__lt" style="font-size:15px;font-weight:700;">正在抓取對話記錄　0 則</div>';o.appendChild(w);document.body.appendChild(o);return o;}
-function shOv(tx){var o=document.createElement('div');o.className='ckov';o.innerHTML='<div class="cksp"></div><div class="ckovt">'+tx+'</div>';document.body.appendChild(o);return o;}
-var REJECT_STR='The request was rejected';
-function ldAff(){return new Promise(function(res){var sid=new URLSearchParams(location.search).get('session_id');if(!sid){res([]);return;}fetch('/api/chat/session/'+sid+'/affinity').then(function(r){return r.json();}).then(function(data){var items=Array.isArray(data)?data:(data.data||data.logs||data.items||[]);var all=[];items.forEach(function(item){var isOld=!!(item.isOldData);var chgRaw=typeof item.change!=='undefined'?item.change:0;var numVal=Number(chgRaw)||0;if(isOld&&numVal===0)return;var tx=(item.thought||'').trim();if(tx.indexOf(REJECT_STR)>=0)tx='';var chg=(numVal>=0?'+':'')+numVal;var dtRaw=item.createdAt||item.created_at||null;var dt=dtRaw?new Date(dtRaw):null;if(dt&&isNaN(dt.getTime()))dt=null;if(!tx&&numVal===0)return;all.push({txt:tx,chg:chg,dt:dt,num:numVal,hasTxt:!!tx,isOld:isOld});});if(all.length){all.sort(function(a,b){if(!a.dt&&!b.dt)return 0;if(!a.dt)return 1;if(!b.dt)return -1;return a.dt.getTime()-b.dt.getTime();});}res(all);}).catch(function(){res([]);});});}
-var BR='▁▂▃▄▅▆▇█';
-function mkCh(af){var vis=af.filter(function(a){return a.hasTxt;});if(!vis.length)return'';var ns=vis.map(function(a){return a.num;}),mxP=Math.max.apply(null,ns.filter(function(n){return n>0;}).concat([0])),mxN=Math.abs(Math.min.apply(null,ns.filter(function(n){return n<0;}).concat([0]))),prB='',nrB='';ns.forEach(function(n){if(n>0){prB+=mxP?BR[Math.min(7,Math.round(n/mxP*7))]:'░';nrB+='░';}else if(n<0){prB+='░';nrB+=mxN?BR[Math.min(7,Math.round(Math.abs(n)/mxN*7))]:'░';}else{prB+='░';nrB+='░';}});return'正  '+prB+'\n負  '+nrB;}
-function cumArr(af,offset){var c=offset||0,r=[];af.forEach(function(a){c+=a.num;r.push(c);});return r;}
-function calcOffset(af){var apiTot=0;af.forEach(function(a){apiTot+=a.num;});var score=gAfScore();if(score===null)return 0;return score-apiTot;}
-function mAff(msg,af){var mt=gT(msg);if(!mt)return[];var mk=mt.getFullYear()+'-'+mt.getMonth()+'-'+mt.getDate()+'-'+mt.getHours()+'-'+mt.getMinutes();return af.filter(function(a){if(!a.dt)return false;var ak=a.dt.getFullYear()+'-'+a.dt.getMonth()+'-'+a.dt.getDate()+'-'+a.dt.getHours()+'-'+a.dt.getMinutes();return ak===mk;});}
-function aBlk(ma,aN){if(!ma.length)return'';var ln=[];ma.forEach(function(a){ln.push('────────────────');if(a.hasTxt){ln.push('💭 '+aN+' 心聲｜'+a.chg);ln.push('━━━━━━━━━━━━━━━━');ln.push(a.txt);}else{ln.push('💭 好感變化｜'+a.chg);}ln.push('────────────────');ln.push('');});return ln.join('\n');}
-function gExHl(af){var withTxt=af.filter(function(a){return a.hasTxt&&a.num!==0;});if(!withTxt.length)return{mxP:0,mxN:0,mxPItems:[],mxNItems:[]};var nums=withTxt.map(function(a){return a.num;});var mxP=Math.max.apply(null,nums);var mxN=Math.min.apply(null,nums);return{mxP:mxP,mxN:mxN,mxPItems:withTxt.filter(function(a){return a.num===mxP;}),mxNItems:withTxt.filter(function(a){return a.num===mxN;})};}
-function aStat(af){if(!af.length)return'';var offset=calcOffset(af);var cfwd=cumArr(af,offset);var tot=cfwd.length?cfwd[cfwd.length-1]:(gAfScore()||0);var hl=gExHl(af);var mxPLines=hl.mxPItems.map(function(a){return'  +'+(hl.mxP)+'　'+fSnt(a.txt);}).join('\n');var mxNLines=hl.mxNItems.map(function(a){return'  '+(hl.mxN)+'　'+fSnt(a.txt);}).join('\n');return['','好感變化紀錄','━━━━━━━━━━━━━━━━━━━━━━━━━━━━','總累積：'+(tot>=0?'+':'')+tot,'最大漲幅：+'+(hl.mxP)+'　最大跌幅：'+(hl.mxN),'','最大漲幅心聲：',mxPLines,'最大跌幅心聲：',mxNLines,'','走勢：',mkCh(af),'━━━━━━━━━━━━━━━━━━━━━━━━━━━━',''].join('\n');}
-function expAfTxt(af,aN){var offset=calcOffset(af);var cfwd=cumArr(af,offset);var tot=cfwd.length?cfwd[cfwd.length-1]:(gAfScore()||0);var hl=gExHl(af);var nw=new Date();var withTxtNonZero=af.filter(function(a){return a.hasTxt&&a.num!==0;});var lines=['========================================',aN+' 好感度紀錄','匯出時間：'+fD(nw,'dts'),'========================================','','總累積：'+(tot>=0?'+':'')+tot,'最大漲幅：+'+(hl.mxP)+'　最大跌幅：'+(hl.mxN),'','最大漲幅心聲：'];hl.mxPItems.forEach(function(a){lines.push('  +'+(hl.mxP)+'　'+fSnt(a.txt));});lines.push('最大跌幅心聲：');hl.mxNItems.forEach(function(a){lines.push('  '+(hl.mxN)+'　'+fSnt(a.txt));});lines.push('','走勢：');mkCh(af).split('\n').forEach(function(l){lines.push(l);});lines.push('','========================================','逐筆明細（共 '+withTxtNonZero.length+' 筆心聲）','========================================','');var idx=0;af.forEach(function(a,i){if(!a.hasTxt||a.num===0)return;idx++;var ts=a.dt?fD(a.dt,'dts'):'--';lines.push('第 '+idx+' 筆　'+ts+'　'+(a.num>=0?'+':'')+a.num+'　累積 '+(cfwd[i]>=0?'+':'')+cfwd[i]);lines.push(a.txt);lines.push('');});var bl=new Blob([lines.join('\n')],{type:'text/plain'}),u=URL.createObjectURL(bl),a=document.createElement('a');a.href=u;a.download=aN+'_好感紀錄_'+fD(nw,'fd')+'.txt';a.click();setTimeout(function(){URL.revokeObjectURL(u);},3000);}
-function shAfModal(af,aN,arr){var offset=calcOffset(af);var cfwd=cumArr(af,offset);var tot=cfwd.length?cfwd[cfwd.length-1]:(gAfScore()||0);var withTxtNonZero=af.filter(function(a){return a.hasTxt&&a.num!==0;});var hl=gExHl(af);var visNs=withTxtNonZero.map(function(a){return a.num;}),mxPv=Math.max.apply(null,visNs.filter(function(n){return n>0;}).concat([0])),mxNv=Math.abs(Math.min.apply(null,visNs.filter(function(n){return n<0;}).concat([0]))),prB='',nrB='';visNs.forEach(function(n){if(n>0){prB+=mxPv?BR[Math.min(7,Math.round(n/mxPv*7))]:'░';nrB+='░';}else if(n<0){prB+='░';nrB+=mxNv?BR[Math.min(7,Math.round(Math.abs(n)/mxNv*7))]:'░';}else{prB+='░';nrB+='░';}});
-var mxPEarly=hl.mxPItems.length?hl.mxPItems[0]:null;var mxNEarly=hl.mxNItems.length?hl.mxNItems[0]:null;var mxPS2=mxPEarly?'<span style="color:#4caf50">+'+(hl.mxP)+'</span>　'+fSnt(mxPEarly.txt):'—';var mxNS2=mxNEarly?'<span style="color:#fc3c7b">'+(hl.mxN)+'</span>　'+fSnt(mxNEarly.txt):'—';
-var initRow='';if(offset!==0){initRow='<div class="ckafi"><div class="ckafr"><span class="ckaft">--:--</span><span class="ckafp" style="color:#888;">—</span><span style="margin-left:auto;font-size:11px;font-weight:700;color:'+(offset>=0?'#4caf50':'#fc3c7b')+'">'+(offset>=0?'+':'')+offset+'</span></div><div class="ckaftx" style="color:#555;">初始狀態</div></div>';}
-function mkList(sortMode){var items=withTxtNonZero.map(function(a){return{item:a,origIdx:af.indexOf(a)};});var showCum;if(sortMode==='score'){items.sort(function(a,b){return b.item.num-a.item.num;});showCum=false;}else if(sortMode==='new'){items=items.slice().reverse();showCum=true;}else{showCum=true;}var h=sortMode==='old'?initRow:'';items.forEach(function(obj){var a=obj.item,idx=obj.origIdx,up=a.num>=0,dt=a.dt?fD(a.dt,''):'',tm=a.dt?fD(a.dt,'hm'):'--',ts=(dt+' '+tm).trim(),cv=cfwd[idx],cumH=showCum?'<span style="margin-left:auto;font-size:11px;font-weight:700;color:'+(cv>=0?'#4caf50':'#fc3c7b')+'">'+(cv>=0?'+':'')+cv+'</span>':'';h+='<div class="ckafi"><div class="ckafr"><span class="ckaft">'+ts+'</span><span class="ckafp '+(up?'up':'dn')+'">'+(up?'+':'')+a.num+'</span>'+cumH+'</div><div class="ckaftx">'+a.txt.slice(0,80)+(a.txt.length>80?'…':'')+'</div></div>';});if(sortMode==='new')h+=initRow;return h;}
-var sortMode='new';var o=document.createElement('div');o.className='cko';var w=document.createElement('div');w.className='ckaf';w.innerHTML='<div class="ckafh"><div style="display:flex;align-items:center;justify-content:space-between;"><div><div style="font-size:17px;font-weight:700;">好感度紀錄</div><div style="font-size:12px;color:#555;margin-top:2px;">共 '+withTxtNonZero.length+' 筆心聲</div></div><button id="__afcl" style="background:none;border:none;color:#666;font-size:22px;cursor:pointer;padding:0 4px;">×</button></div></div><div class="ckafb"><div class="ckafs"><div class="ckafsl">總累積好感</div><div class="ckafsc" style="color:'+(tot>=0?'#4caf50':'#fc3c7b')+'">'+(tot>=0?'+':'')+tot+'</div><div class="ckafst">最大漲幅　<span style="color:#4caf50">+'+(hl.mxP)+'</span>　最大跌幅　<span style="color:#fc3c7b">'+(hl.mxN)+'</span><br>走勢　<span style="font-family:monospace;letter-spacing:1px;">'+prB+'</span></div></div><div class="ckafhl"><div class="ckafhlr"><span class="ckafhlk" style="color:#4caf50">▲</span><span class="ckafhlv">'+mxPS2+'</span></div><div class="ckafhlr"><span class="ckafhlk" style="color:#fc3c7b">▼</span><span class="ckafhlv">'+mxNS2+'</span></div></div><div class="ckafsr"><button class="ckafstb on" data-s="new">最新在上</button><button class="ckafstb" data-s="old">最舊在上</button><button class="ckafstb" data-s="score">好感高到低</button></div><div id="__aflist">'+mkList(sortMode)+'</div><div style="display:flex;gap:10px;margin-top:16px;"><button id="__afbk" style="flex:1;padding:11px;border-radius:10px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:14px;font-weight:700;cursor:pointer;">返回</button><button id="__afex" style="flex:2;padding:11px;border-radius:10px;border:none;background:#fc3c7b;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">匯出 TXT</button></div></div>';
-o.appendChild(w);document.body.appendChild(o);
-w.querySelector('#__afcl').onclick=function(){o.remove();};
-w.querySelector('#__afbk').onclick=function(){o.remove();shMain(arr);};
-w.querySelectorAll('.ckafstb').forEach(function(b){b.onclick=function(){sortMode=this.dataset.s;w.querySelectorAll('.ckafstb').forEach(function(x){x.classList.remove('on');});this.classList.add('on');w.querySelector('#__aflist').innerHTML=mkList(sortMode);};});
-w.querySelector('#__afex').onclick=function(){expAfTxt(af,aN);};}
-function fAll(){var sid=new URLSearchParams(location.search).get('session_id');if(!sid){alert('找不到 session_id，請確認網址格式。');return Promise.resolve([]);}var lm=shLd(),lt=lm.querySelector('#__lt'),all=[],bef=null,ec=0,dl=200,bt=100;function lp(){var url='/api/chat/session/'+sid+'/history?limit='+bt;if(bef)url+='&beforeId='+bef;return fetch(url).then(function(r){if(r.status===429){ec++;dl=Math.min(dl*2,5000);return new Promise(function(rs){setTimeout(rs,dl);}).then(lp);}ec=0;dl=200;return r.json();}).then(function(data){if(!data)return all;var b=data.logs||data.messages||data||[];if(!Array.isArray(b)||b.length===0){lm.remove();return all;}all=b.concat(all);bef=b[0]._id;lt.textContent='正在抓取對話記錄　'+all.length+' 則';return new Promise(function(rs){setTimeout(rs,dl);}).then(lp);}).catch(function(){ec++;if(ec<=3){dl=Math.min(dl*2,5000);return new Promise(function(rs){setTimeout(rs,dl);}).then(lp);}lm.remove();alert('抓取失敗，請重試。');return all;});}return lp();}
-function bCnt(arr,lo,hi){var a=0,u=0;for(var i=lo;i<=hi;i++){if(!arr[i])continue;var r=arr[i].role||arr[i].sender||'';if(r==='assistant'||r==='ai')a++;else u++;}return{a:a,u:u};}
-function isAI(e){return e.role==='assistant'||e.role==='ai'||e.sender==='ai';}
-function bld(arr,lo,hi,fmt,ws,af,iA,iS,oA,noU){var aN=gAN(),uN=gUN(),en=arr.slice(lo,hi+1),ln=[],d0=gT(arr[lo]),d1=gT(arr[hi]),nw=new Date();var outA=0,outU=0;var offset=af.length?calcOffset(af):0;var cfwd=af.length?cumArr(af,offset):[];if(fmt==='txt'){ln.push('========================================');ln.push(uN+' - '+aN);ln.push((d0?fD(d0,'dot'):'?')+' ~ '+(d1?fD(d1,'dot'):'?'));ln.push(fD(nw,'dts'));ln.push('========================================');ln.push('');}if(fmt==='json'){var ja=0,ju=0;var msgs=[];en.forEach(function(e,i){var ia=isAI(e);if(!ia&&noU)return;if(ia)ja++;else ju++;var bs={index:i+1,role:ia?'ai':'user',time:e.createdAt||e.created_at||null,content:e.content||e.message||e.text||''};if(iA&&ia&&af.length){var m=mAff(e,af);if(m.length)bs.affinity=m.map(function(x){return{change:x.chg,content:x.txt};});}msgs.push(bs);});var obj={ai:aN,user:uN,exportedAt:nw.toISOString(),messages:msgs};if(ws)obj.stat={total:ja+ju,ai:ja,user:ju};if(iS&&af.length){var afhl=gExHl(af);var afTot=cfwd.length?cfwd[cfwd.length-1]:(gAfScore()||0);obj.affinityStat={summary:{total:afTot,maxUp:afhl.mxP,maxDown:afhl.mxN},logs:af.filter(function(x){return x.hasTxt&&x.num!==0;}).map(function(x){var oi=af.indexOf(x);return{time:x.dt?fD(x.dt,'dts'):null,change:x.chg,cumulative:(cfwd[oi]>=0?'+':'')+cfwd[oi],content:x.txt};})};} return JSON.stringify(obj,null,2);}
-if(fmt==='md'){ln.push('# '+uN+' — '+aN,'','> 匯出時間：'+nw.toLocaleString('zh-TW'),'','---','');}
-function wMsg(e,nm){var t=e.createdAt||e.created_at||null,ts=t?fD(new Date(t),'dts'):null,ct=e.content||e.message||e.text||'';if(fmt==='md'){ln.push('### '+nm+(ts?' `['+ts+']`':''));ln.push('');ct.split('\n').forEach(function(l){ln.push(l||'');});ln.push('');}else{ln.push('【'+nm+'】'+(ts?'['+ts+']':''));ln.push(ct);ln.push('');}}
-if(oA){for(var i=0;i<en.length;i++){var e=en[i];if(!isAI(e))continue;var ma=af.length?mAff(e,af):[];if(!ma.length)continue;if(i>0&&!noU){var pv=en[i-1];if(!isAI(pv)){wMsg(pv,uN);outU++;}}wMsg(e,aN);outA++;ln.push(aBlk(ma,aN));if(fmt==='md')ln.push('---','');else ln.push('');}}else{en.forEach(function(e){var ia=isAI(e);if(!ia&&noU)return;if(ia)outA++;else outU++;wMsg(e,ia?aN:uN);if(iA&&ia&&af.length){var ma=mAff(e,af);if(ma.length)ln.push(aBlk(ma,aN));}if(fmt==='md')ln.push('---','');else ln.push('');});}
-if(iS&&af.length)ln.push(aStat(af));
-if(ws){ln.push('========================================');ln.push('共匯出 '+(outA+outU)+' 則');ln.push('角色 '+outA+' 則 ／ 玩家 '+outU+' 則');ln.push('========================================');}
-return ln.join('\n');}
-function dExp(arr,lo,hi,fmt,ws,af,iA,iS,oA,noU){var ct=bld(arr,lo,hi,fmt,ws,af,iA,iS,oA,noU),ext=fmt==='json'?'json':fmt==='md'?'md':'txt',mime=fmt==='json'?'application/json':'text/plain',sD=gT(arr[lo]),eD=gT(arr[hi]),nw=new Date(),fn=gAN()+'_export_'+(sD?fD(sD,'fd'):'??')+'-'+(eD?fD(eD,'fd'):'??')+'_'+fD(nw,'fs')+'.'+ext,bl=new Blob([ct],{type:mime}),u=URL.createObjectURL(bl),a=document.createElement('a');a.href=u;a.download=fn;a.click();setTimeout(function(){URL.revokeObjectURL(u);},3000);}
-function shCf(arr,iL,iH){var tot=arr.length,aL=iL,aH=iH,fmt='txt',ws=false,iA=false,iS=false,oA=false,noU=false,ckFl=false;var cm=document.createElement('div');cm.className='cko';var cw=document.createElement('div');cw.className='ckb';function gPV(){var lo=Math.min(aL,aH),hi=Math.max(aL,aH),c=bCnt(arr,lo,hi),n=hi-lo+1;return'第 <em>'+(lo+1)+'</em> 則 → 第 <em>'+(hi+1)+'</em> 則，共 <em>'+n+'</em> 則（角色 '+c.a+'／玩家 '+c.u+'）';}function gTS(idx){var d=gT(arr[Math.max(0,Math.min(idx,tot-1))]);return d?fD(d,'dtm'):'—';}function rdr(){cw.innerHTML='<div class="ckt">確認匯出</div><div class="cks">可直接修改則數，留空則套用預設範圍</div><div class="cktg"><div class="cktgc"><div class="cktgl">⏱ 開始時間</div><div class="cktgv" id="__ts">'+gTS(Math.min(aL,aH))+'</div></div><div class="cktgc"><div class="cktgl">⏱ 結束時間</div><div class="cktgv" id="__te">'+gTS(Math.max(aL,aH))+'</div></div></div><div class="ckng"><div class="ckngc"><div class="ckngl">起始則</div><input class="ckngi" id="__as" type="number" min="1" max="'+tot+'" value="'+(Math.min(aL,aH)+1)+'"><div class="ckngh">/ '+tot+' 則</div></div><div class="ckngc"><div class="ckngl">結束則</div><input class="ckngi" id="__ae" type="number" min="1" max="'+tot+'" value="'+(Math.max(aL,aH)+1)+'"><div class="ckngh">/ '+tot+' 則</div></div></div><div class="ckwe" id="__we"></div><div class="ckpv" id="__pv">'+gPV()+'</div><div style="font-size:12px;color:#c8c8d0;margin-bottom:8px;">匯出格式</div><div class="ckfr"><button class="cktb'+(fmt==='txt'?' on':'')+'" data-fmt="txt">純文字</button><button class="cktb'+(fmt==='md'?' on':'')+'" data-fmt="md">Markdown</button><button class="cktb'+(fmt==='json'?' on':'')+'" data-fmt="json">JSON</button></div><div class="ck2col"><div><div class="ck2colh">輸出內容</div><div class="ck2colc"><label class="ckcr'+(oA?' off':'')+'" id="__laff"><input type="checkbox" id="__iaf"'+(iA?' checked':'')+'><span>附上心聲與好感</span></label><label class="ckcr"><input type="checkbox" id="__ist"'+(iS?' checked':'')+'><span>附上好感度統計</span></label><label class="ckcr"><input type="checkbox" id="__ws"'+(ws?' checked':'')+'><span>附上訊息統計</span></label></div></div><div><div class="ck2colh">篩選條件</div><div class="ck2colc"><label class="ckcr" id="__lonly"><input type="checkbox" id="__ion"'+(oA?' checked':'')+'><span>只輸出有心聲的對話</span></label><label class="ckcr"><input type="checkbox" id="__nou"'+(noU?' checked':'')+'><span>不輸出玩家對話</span></label><label class="ckcr"><input type="checkbox" id="__fl"'+(ckFl?' checked':'')+'><span>套用狀態欄過濾</span></label></div></div></div><div class="ckbr"><button class="ckbt" id="__cc">取消</button><button class="ckbp" id="__ex" style="flex:2;">開始匯出 →</button></div>';
-cw.querySelectorAll('[data-fmt]').forEach(function(b){b.onclick=function(){fmt=this.dataset.fmt;rdr();};});
-var asI=cw.querySelector('#__as'),aeI=cw.querySelector('#__ae'),weEl=cw.querySelector('#__we'),pvEl=cw.querySelector('#__pv'),tsEl=cw.querySelector('#__ts'),teEl=cw.querySelector('#__te');
-function upA(){var sv=parseInt(asI.value),ev=parseInt(aeI.value);weEl.textContent='';if(!isNaN(sv)&&!isNaN(ev)&&ev<=sv){weEl.textContent='⚠️ 結束則不能早於或等於起始則';pvEl.innerHTML='';return;}if(!isNaN(sv)){aL=Math.max(0,Math.min(sv-1,tot-1));tsEl.textContent=gTS(aL);}if(!isNaN(ev)){aH=Math.max(0,Math.min(ev-1,tot-1));teEl.textContent=gTS(aH);}pvEl.innerHTML=gPV();}
-asI.addEventListener('input',upA);aeI.addEventListener('input',upA);
-cw.querySelector('#__iaf').onchange=function(){iA=this.checked;};
-cw.querySelector('#__ist').onchange=function(){iS=this.checked;};
-cw.querySelector('#__ion').onchange=function(){oA=this.checked;var laf=cw.querySelector('#__laff');if(oA){laf.classList.add('off');iA=false;cw.querySelector('#__iaf').checked=false;}else laf.classList.remove('off');};
-cw.querySelector('#__nou').onchange=function(){noU=this.checked;};
-cw.querySelector('#__fl').onchange=function(){ckFl=this.checked;};cw.querySelector('#__ws').onchange=function(){ws=this.checked;};
-cw.querySelector('#__cc').onclick=function(){cm.remove();};
-cw.querySelector('#__ex').onclick=function(){if(weEl.textContent)return;var lo=Math.min(aL,aH),hi=Math.max(aL,aH);cm.remove();var doEx=function(af){if(ckFl){shFlModal(arr,lo,hi,fmt,ws,af,iA,iS,oA,noU);}else{dExp(arr,lo,hi,fmt,ws,af,iA,iS,oA,noU);}};var nA=iA||iS||oA||ckFl;if(nA){var ov=shOv('正在載入心聲資料…');ldAff().then(function(af){ov.remove();doEx(af);});}else doEx([]);};}
-rdr();cm.appendChild(cw);document.body.appendChild(cm);}
-function modeTime(arr){var o=document.createElement('div');o.className='cko';var w=document.createElement('div');w.className='ckb';w.innerHTML='<div class="ckt">📅 選擇時間範圍</div><div class="cks">不填代表不限制該欄位</div><div class="ckl">⏱ 開始時間</div><div class="ckrow"><input type="date" id="__sd" class="ckinp"><input type="time" id="__st" class="ckinpsm"></div><div class="ckl">⏱ 結束時間</div><div class="ckrow" style="margin-bottom:20px;"><input type="date" id="__ed" class="ckinp"><input type="time" id="__et" class="ckinpsm"></div><div class="ckwe" id="__we"></div><div class="ckbr"><button class="ckbt" id="__cc">取消</button><button class="ckbp" id="__ok">確定</button></div>';o.appendChild(w);document.body.appendChild(o);w.querySelector('#__cc').onclick=function(){o.remove();};w.querySelector('#__ok').onclick=function(){var sd=w.querySelector('#__sd').value,st=w.querySelector('#__st').value,ed=w.querySelector('#__ed').value,et=w.querySelector('#__et').value,sT=sd?new Date(sd+'T'+(st||'00:00')):null,eT=ed?new Date(ed+'T'+(et||'23:59')):null,we=w.querySelector('#__we');if(sT&&eT&&sT>=eT){we.textContent='⚠️ 結束時間不能早於或等於開始時間';return;}var lo=0,hi=arr.length-1;if(sT||eT){lo=-1;hi=-1;for(var i=0;i<arr.length;i++){var d=gT(arr[i]);if(!d)continue;if(sT&&d<sT)continue;if(eT&&d>eT)continue;if(lo===-1)lo=i;hi=i;}if(lo===-1){we.textContent='⚠️ 該時間範圍內沒有任何訊息';return;}}o.remove();shCf(arr,lo,hi);};}
-function mClick(arr){
-var tot=arr.length,tsM=new Map(),dirty=false,obs=null,mkTid=null;
-for(var mi=0;mi<tot;mi++){var mt=gT(arr[mi]);if(mt)tsM.set(mt.getTime(),mi);}
-function rbTsM(){dirty=false;tsM.clear();for(var i=0;i<arr.length;i++){var t=gT(arr[i]);if(t)tsM.set(t.getTime(),i);}}
-function gIdx(el){if(dirty)rbTsM();var ts=el.dataset.createdAt||el.dataset.timestamp||null;if(ts){var d=new Date(ts);if(!isNaN(d.getTime())){if(tsM.has(d.getTime()))return tsM.get(d.getTime());var bst=-1,bstD=Infinity;tsM.forEach(function(idx,ms){var df=Math.abs(ms-d.getTime());if(df<bstD&&df<5000){bstD=df;bst=idx;}});if(bst>=0)return bst;}}var dm=Array.from(document.querySelectorAll('.message-container'));return tot-dm.length+dm.indexOf(el);}
-var anc=null,flt=null;
-var tip=document.createElement('div');tip.className='cktip';document.body.appendChild(tip);
-var mouseX=0,mouseY=0;
-document.addEventListener('mousemove',function onMM(e){mouseX=e.clientX;mouseY=e.clientY;tip.style.left=(mouseX+14)+'px';tip.style.top=mouseY+'px';});
-var hk=null;
-if(window.innerWidth>=480){
-  hk=document.createElement('div');
-  hk.className='ckhk';
-  hk.innerHTML='↑↓ 移動終點　Esc 退出';
-  document.body.appendChild(hk);
-} 
-var bar=document.createElement('div');bar.className='ckbar';document.body.appendChild(bar);
-var rt=document.getElementById('chat-window')||document.querySelector('.messages-container')||document.querySelector('.chat-messages')||document.body;
-var mcListeners=[];
-obs=new MutationObserver(function(muts){for(var i=0;i<muts.length;i++){if(muts[i].addedNodes.length){dirty=true;bindMC();break;}}});obs.observe(rt,{childList:true,subtree:true});
-function bindMC(){Array.from(document.querySelectorAll('.message-container')).forEach(function(el){if(el.__ckBound)return;el.__ckBound=true;var onEnt=function(){var idx=gIdx(el);var ia=!!(el.classList.contains('ai')||el.querySelector('.sender-name.ai'));tip.textContent='第 '+(idx+1)+' 則　'+(ia?'角色':'玩家');tip.classList.add('on');};var onLv=function(){tip.classList.remove('on');};el.addEventListener('mouseenter',onEnt);el.addEventListener('mouseleave',onLv);mcListeners.push({el:el,onEnt:onEnt,onLv:onLv});});}
-rt.classList.add('ck-active-mode');
-function gL2(){return flt===null?anc:Math.min(anc,flt);}
-function gH2(){return flt===null?anc:Math.max(anc,flt);}
-function cntS(){if(anc===null)return{a:0,u:0,n:0};var c=bCnt(arr,gL2(),gH2());c.n=gH2()-gL2()+1;return c;}
-function gBT(){var isM=window.innerWidth<480;if(anc===null)return'點擊起點訊息';var c=cntS();if(isM)return flt===null?'第 '+(anc+1)+' 則　點擊終點':'第 '+(gL2()+1)+' → '+(gH2()+1)+' 則　共 '+c.n+' 則';return flt===null?'🟢 第 '+(anc+1)+' 則　｜　請繼續點擊終點':'🟢 第 '+(gL2()+1)+' 則 → 🔴 第 '+(gH2()+1)+' 則　｜　共 '+c.n+' 則（角色 '+c.a+'／玩家 '+c.u+'）';}
-var pM=new Map();
-function uMk(){if(mkTid)return;mkTid=setTimeout(function(){mkTid=null;var lo=anc===null?null:gL2(),hi=anc===null?null:gH2();Array.from(document.querySelectorAll('.message-container')).forEach(function(el){var idx=gIdx(el),nx='';if(lo!==null){if(idx===lo&&idx===hi)nx='cksel';else if(idx===lo)nx='cksel';else if(idx===hi)nx='ckend';else if(idx>lo&&idx<hi)nx='ckmid';}var pv=pM.get(el)||'';if(pv===nx)return;if(pv)el.classList.remove(pv);if(nx)el.classList.add(nx);pM.set(el,nx);});},100);}
-function svEl(idx){var els=Array.from(document.querySelectorAll('.message-container'));for(var i=0;i<els.length;i++){if(gIdx(els[i])===idx){els[i].scrollIntoView({block:'nearest',behavior:'smooth'});return;}}}
-function uBar(){var rd=anc!==null;bar.innerHTML='<div class="ckbt1"><div class="ckbs">'+gBT()+'</div><button class="ckbn" id="__br">重設</button><button class="ckbg'+(rd?' on':'')+'" id="__bd">完成選取</button><button class="ckbn" id="__bc">✕</button></div>';bar.querySelector('#__bc').onclick=cUp;bar.querySelector('#__br').onclick=function(){anc=null;flt=null;uMk();uBar();};bar.querySelector('#__bd').onclick=function(){if(anc===null)return;var lo=gL2(),hi=gH2();cUp();shCf(arr,lo,hi);};}
-function kH(e){if(e.key==='Escape'){cUp();return;}var isM=window.innerWidth<480;if(e.key==='ArrowUp'||e.key==='ArrowDown'){if(isM)return;if(anc===null)return;var dr=e.key==='ArrowUp'?-1:1,cu=flt===null?anc:flt;flt=Math.max(0,Math.min(tot-1,cu+dr));svEl(flt);uMk();uBar();e.preventDefault();}}
-document.addEventListener('keydown',kH);
-function onCk(e){var el=e.target.closest('.message-container');if(!el)return;var idx=gIdx(el);if(anc===null){anc=idx;flt=null;}else{flt=idx;}uMk();uBar();}
-rt.addEventListener('click',onCk);
-function cUp(){if(obs){obs.disconnect();obs=null;}if(mkTid){clearTimeout(mkTid);mkTid=null;}rt.classList.remove('ck-active-mode');bar.remove();tip.remove();hk.remove();mcListeners.forEach(function(o){o.el.removeEventListener('mouseenter',o.onEnt);o.el.removeEventListener('mouseleave',o.onLv);o.el.__ckBound=false;});mcListeners=[];document.removeEventListener('keydown',kH);rt.removeEventListener('click',onCk);Array.from(document.querySelectorAll('.message-container')).forEach(function(el){el.classList.remove('cksel','ckend','ckmid');});window.__CKX=null;}
-window.__CKX=cUp;
-bindMC();uBar();}
-function cL(lines,R){var result=[],deleted=[];var i=0;while(i<lines.length){var ln=lines[i],tr=ln.trim(),matched=false;for(var bi=0;bi<R.length;bi++){var rule=R[bi];if(rule.t!=='b')continue;var ns=nQ(rule.start);if(nQ(tr).indexOf(ns)===0){matched=true;var bInfo=rule;deleted.push({line:ln,rule:bInfo});i++;while(i<lines.length){var bl=lines[i],bt=bl.trim();if(rule.end===''){if(bt===''){deleted.push({line:bl,rule:bInfo});i++;break;}deleted.push({line:bl,rule:bInfo});i++;}else{if(nQ(bt).indexOf(nQ(rule.end))===0){deleted.push({line:bl,rule:bInfo});i++;break;}deleted.push({line:bl,rule:bInfo});i++;}}break;}}if(matched)continue;var delByRule=null;for(var pi=0;pi<R.length;pi++){var pr=R[pi];if(pr.t==='p'&&nQ(tr).indexOf(nQ(pr.v))===0){delByRule=pr;break;}}if(!delByRule){for(var ri=0;ri<R.length;ri++){var rr=R[ri];if(rr.t==='r'){try{if(new RegExp(rr.v).test(tr)){delByRule=rr;break;}}catch(e){}}};}if(delByRule){deleted.push({line:ln,rule:delByRule});}else{result.push(ln);}i++;}return{result:result,deleted:deleted};}
-function nQ(s){if(!s)return'';return s.replace(/[\u201c\u201d\u2018\u2019\u300c\u300d\u300e\u300f\uff02\uff07]/g,'"').replace(/\uff1a/g,':').replace(/[\u{1f000}-\u{1ffff}\u{2600}-\u{27ff}]/gu,'').replace(/[^\S\r\n]+/g,' ').trim();}
-function gPfx(line){var s=nQ(line);s=s.replace(/^[\*\#\>\-\=\~\u25b4\u25b8\u25ba\u2605\u25c6\s]+/,'');var ci=s.search(/[\uff1a:]/);if(ci>=1&&ci<=15){return nQ(line.slice(0,line.search(/[\uff1a:]/)+1));}if(s.length===0)return null;return nQ(line.slice(0,Math.min(12,line.length)));}
-function isBdr(line){return /^[\s\*\=\-\─\━\─\u2500-\u257f]{3,}$/.test(line.trim());}
-function autoDetect(samples){var sets=[];samples.forEach(function(sm){var lines=sm.split('\n');var pfxSet={};lines.forEach(function(ln){if(isBdr(ln))return;var p=gPfx(ln);if(p&&p.length>0)pfxSet[p]=true;});sets.push(pfxSet);});if(!sets.length)return[];var common=Object.keys(sets[0]);for(var i=1;i<sets.length;i++){common=common.filter(function(k){return sets[i][k];});}return common.map(function(v){return{t:'p',v:v,a:true};});}
-function flLsKey(){return'ckFl_'+location.hostname+location.pathname;}
-function flSave(R){try{localStorage.setItem(flLsKey(),JSON.stringify(R.filter(function(r){return!r.a;})));}catch(e){}}
-function flLoad(){try{var s=localStorage.getItem(flLsKey());return s?JSON.parse(s):[];}catch(e){return[];}}
-function shFlModal(arr,lo,hi,fmt,ws,af,iA,iS,oA,noU){
-var aN=gAN();
-var R=flLoad();
-var aiMsgs=[];for(var i=lo;i<=hi;i++){if(arr[i]&&isAI(arr[i]))aiMsgs.push({idx:i,msg:arr[i]});}
-var autoSamples=[];if(aiMsgs.length>=1){var picks=[];if(aiMsgs.length===1){picks=[0];}else if(aiMsgs.length===2){picks=[0,aiMsgs.length-1];}else{picks=[0,Math.floor((aiMsgs.length-1)/2),aiMsgs.length-1];}picks.forEach(function(p){var m=aiMsgs[p];autoSamples.push({label:'第 '+(m.idx+1)+' 則（自動）',text:m.msg.content||m.msg.message||m.msg.text||''});});}
-var manSamples=[];var allSamples=autoSamples.concat(manSamples);
-var curTab=0;var ruleTab='p';
-var o=document.createElement('div');o.className='cko';o.style.alignItems='flex-start';o.style.paddingTop='20px';
-var w=document.createElement('div');w.style.cssText='background:#131313;border-radius:16px;width:94%;max-width:680px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.5);color:#fff;font-family:sans-serif;animation:ckI .25s ease;overflow:hidden;';
-function ruleLabel(r){var colors={p:'#1e4d8c',r:'#7c3a00',b:'#3a1e6e'};var bg=colors[r.t]||'#333';var names={p:'前綴',r:'正則',b:'區塊'};var nm=names[r.t]||'?';var txt=r.t==='b'?nm+'　'+r.start+'→'+(r.end||'空行'):nm+'　'+r.v;return'<span style="display:inline-flex;align-items:center;gap:4px;background:'+bg+';border-radius:6px;padding:3px 8px;font-size:11px;cursor:default;margin:2px;" title="'+txt.replace(/"/g,'&quot;')+'">'+txt+(r.a?'<span style="width:5px;height:5px;border-radius:50%;background:#4caf50;display:inline-block;margin-left:3px;"></span>':'')+'<span data-del style="margin-left:4px;cursor:pointer;color:#aaa;">×</span></span>';}
-function rdrRuleList(el){el.innerHTML='';if(!R.length){el.innerHTML='<span style="font-size:12px;color:#555;">尚無規則</span>';return;}var h='';R.forEach(function(r,ri){h+=ruleLabel(r);});el.innerHTML=h;el.querySelectorAll('[data-del]').forEach(function(btn,ri){btn.onclick=function(e){e.stopPropagation();R.splice(ri,1);flSave(R);rdrAll();};});}
-function previewSample(text,container,statEl){var lines=text.split('\n');var out=cL(lines,R);var h='';lines.forEach(function(ln,li){var isDel=out.deleted.some(function(d){return d.line===ln&&lines.indexOf(ln)===li;});var bg=isDel?'rgba(252,60,123,0.18)':'rgba(76,175,80,0.08)';var col=isDel?'#fc3c7b':'#c8c8d0';h+='<div data-li="'+li+'" style="font-size:12px;padding:2px 6px;border-radius:4px;margin:1px 0;background:'+bg+';color:'+col+';cursor:'+(isDel?'pointer':'default')+';white-space:pre-wrap;word-break:break-all;">'+escH(ln)+'</div>';});container.innerHTML=h;statEl.textContent='共 '+lines.length+' 行，刪除 '+out.deleted.length+' 行，保留 '+out.result.length+' 行';container.querySelectorAll('[data-li]').forEach(function(div){var li=parseInt(div.dataset.li);var ln=lines[li];var dInfo=out.deleted.find(function(d){return d.line===ln;});if(!dInfo)return;var open=false;div.onclick=function(){open=!open;var ex=div.querySelector('.ck-rule-ex');if(open){if(!ex){ex=document.createElement('div');ex.className='ck-rule-ex';var r=dInfo.rule;var names={p:'前綴規則',r:'正則規則',b:'區塊規則'};var nm=names[r.t]||'規則';var rv=r.t==='b'?r.start+'→'+(r.end||'空行'):r.v;ex.style.cssText='font-size:10px;color:#888;margin-top:2px;padding:2px 6px;background:#1a1a1a;border-radius:4px;';ex.textContent=nm+'「'+rv+'」';div.appendChild(ex);}else ex.style.display='';}else{if(ex)ex.style.display='none';}};});}
-function escH(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function rdrSampleTabs(tabsEl,preEl,statEl){tabsEl.innerHTML='';allSamples.forEach(function(sm,si){var btn=document.createElement('button');btn.textContent=sm.label;btn.style.cssText='padding:5px 10px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;margin-right:4px;margin-bottom:4px;transition:all .2s;background:'+(si===curTab?'#fc3c7b':'#1f1f20')+';color:'+(si===curTab?'#fff':'#aaa');btn.onclick=function(){curTab=si;rdrAll();};var rmBtn=document.createElement('span');rmBtn.textContent='×';rmBtn.style.cssText='margin-left:4px;cursor:pointer;color:'+(si===curTab?'rgba(255,255,255,.7)':'#555');rmBtn.onclick=function(e){e.stopPropagation();if(si<autoSamples.length)autoSamples.splice(si,1);else manSamples.splice(si-autoSamples.length,1);allSamples=autoSamples.concat(manSamples);if(curTab>=allSamples.length)curTab=Math.max(0,allSamples.length-1);rdrAll();};btn.appendChild(rmBtn);tabsEl.appendChild(btn);});if(!allSamples.length){preEl.innerHTML='<span style="color:#555;font-size:12px;">尚無樣本</span>';statEl.textContent='';return;}var sm=allSamples[curTab]||allSamples[0];previewSample(sm.text,preEl,statEl);}
-function rdrRuleInput(el){var tabs={p:'前綴',r:'正則',b:'區塊'};var tH='<div style="display:flex;gap:4px;background:#1f1f20;border-radius:10px;padding:4px;margin-bottom:10px;">';Object.keys(tabs).forEach(function(k){tH+='<button data-rt="'+k+'" style="flex:1;padding:6px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;background:'+(ruleTab===k?'#fc3c7b':'transparent')+';color:'+(ruleTab===k?'#fff':'#aaa')+';">'+tabs[k]+'</button>';});tH+='</div>';var body='';if(ruleTab==='p'){body='<div style="display:flex;gap:6px;"><input id="__flpi" placeholder="行首字串，例如：【" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;"><button id="__flpa" style="padding:8px 14px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">新增</button></div>';}else if(ruleTab==='r'){body='<div style="display:flex;gap:6px;margin-bottom:6px;"><input id="__flri" placeholder="正則字串，不含斜線，例如：^\\*\\d{4}\\/" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;"><button id="__flra" style="padding:8px 14px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">新增</button></div><div style="font-size:11px;color:#666;margin-bottom:4px;">常用快速鍵</div><div style="display:flex;flex-wrap:wrap;gap:4px;"><button class="__flrq" data-v="^\\*\\d{4}\\/" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">*2026/... 時間行</button></div>';}else{body='<div style="display:flex;gap:6px;margin-bottom:6px;"><input id="__flbs" placeholder="起始標記（必填）" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;"><input id="__flbe" placeholder="結束標記（選填，空=刪到空行）" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;"><button id="__flba" style="padding:8px 14px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">新增</button></div>';}el.innerHTML=tH+body;el.querySelectorAll('[data-rt]').forEach(function(b){b.onclick=function(){ruleTab=this.dataset.rt;rdrAll();};});var flpa=el.querySelector('#__flpa');if(flpa)flpa.onclick=function(){var v=el.querySelector('#__flpi').value.trim();if(!v)return;R.push({t:'p',v:v,a:false});flSave(R);el.querySelector('#__flpi').value='';rdrAll();};var flra=el.querySelector('#__flra');if(flra)flra.onclick=function(){var v=el.querySelector('#__flri').value.trim();if(!v)return;try{new RegExp(v);}catch(e){alert('正則格式錯誤：'+e.message);return;}R.push({t:'r',v:v,a:false});flSave(R);el.querySelector('#__flri').value='';rdrAll();};el.querySelectorAll('.__flrq').forEach(function(b){b.onclick=function(){var inp=el.querySelector('#__flri');if(inp)inp.value=this.dataset.v;};});var flba=el.querySelector('#__flba');if(flba)flba.onclick=function(){var s=el.querySelector('#__flbs').value.trim();var e2=el.querySelector('#__flbe').value.trim();if(!s)return;R.push({t:'b',start:s,end:e2,a:false});flSave(R);el.querySelector('#__flbs').value='';el.querySelector('#__flbe').value='';rdrAll();};}
-var html='<div style="padding:18px 20px 12px;border-bottom:1px solid #242424;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;"><div style="font-size:17px;font-weight:700;">狀態欄過濾規則</div><button id="__flcl" style="background:none;border:none;color:#666;font-size:22px;cursor:pointer;">×</button></div><div style="flex:1;overflow-y:auto;padding:16px 20px 20px;display:flex;flex-direction:column;gap:14px;"><div style="background:#1a1a1a;border-radius:10px;padding:12px 14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;font-weight:600;">樣本預覽</span><button id="__fladd" style="padding:4px 10px;border-radius:8px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:12px;cursor:pointer;">＋ 新增樣本</button></div><div id="__fltabs" style="display:flex;flex-wrap:wrap;margin-bottom:8px;"></div><div id="__flpre" style="max-height:160px;overflow-y:auto;border-radius:6px;padding:4px;background:#111;"></div><div id="__flstat" style="font-size:11px;color:#555;margin-top:6px;"></div></div><div style="background:#1a1a1a;border-radius:10px;padding:12px 14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;font-weight:600;">規則列表</span><button id="__flauto" style="padding:4px 10px;border-radius:8px;border:none;background:#4caf50;color:#111;font-size:12px;font-weight:700;cursor:pointer;">自動偵測</button></div><div id="__flrl" style="display:flex;flex-wrap:wrap;gap:2px;min-height:28px;"></div></div><div style="background:#1a1a1a;border-radius:10px;padding:12px 14px;"><div style="font-size:13px;font-weight:600;margin-bottom:8px;">新增規則</div><div id="__flri2"></div></div></div><div style="padding:14px 20px;border-top:1px solid #242424;display:flex;gap:10px;flex-shrink:0;"><button id="__flcan" style="flex:1;padding:11px;border-radius:10px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:14px;font-weight:700;cursor:pointer;">取消</button><button id="__flok" style="flex:2;padding:11px;border-radius:10px;border:none;background:#fc3c7b;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">確認套用並匯出</button></div>';
-w.innerHTML=html;o.appendChild(w);document.body.appendChild(o);
-var tabsEl=w.querySelector('#__fltabs'),preEl=w.querySelector('#__flpre'),statEl=w.querySelector('#__flstat'),rlEl=w.querySelector('#__flrl'),riEl=w.querySelector('#__flri2');
-function rdrAll(){allSamples=autoSamples.concat(manSamples);rdrSampleTabs(tabsEl,preEl,statEl);rdrRuleList(rlEl);rdrRuleInput(riEl);}
-w.querySelector('#__flcl').onclick=function(){o.remove();};
-w.querySelector('#__flcan').onclick=function(){o.remove();};
-w.querySelector('#__fladd').onclick=function(){var ta=document.createElement('textarea');ta.placeholder='貼入任意對話文字…';ta.style.cssText='width:100%;height:100px;background:#1f1f20;border:1px solid #38383a;border-radius:8px;color:#fff;font-size:12px;padding:8px;box-sizing:border-box;resize:vertical;margin-top:8px;';var wrap=document.createElement('div');wrap.style.cssText='background:#1a1a1a;border-radius:10px;padding:12px 14px;';var row=document.createElement('div');row.style.cssText='display:flex;gap:6px;margin-top:6px;';var ok=document.createElement('button');ok.textContent='確認加入';ok.style.cssText='padding:6px 12px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:12px;cursor:pointer;';var cn=document.createElement('button');cn.textContent='取消';cn.style.cssText='padding:6px 12px;border-radius:8px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:12px;cursor:pointer;';row.appendChild(ok);row.appendChild(cn);wrap.appendChild(ta);wrap.appendChild(row);w.querySelector('div[style*="overflow-y:auto"]').insertBefore(wrap,w.querySelector('#__flri2').parentNode);ok.onclick=function(){var v=ta.value.trim();if(!v){wrap.remove();return;}manSamples.push({label:'手動樣本 '+(manSamples.length+1),text:v});curTab=autoSamples.length+manSamples.length-1;wrap.remove();rdrAll();};cn.onclick=function(){wrap.remove();};};
-w.querySelector('#__flauto').onclick=function(){R=R.filter(function(r){return!r.a;});var sampleTexts=allSamples.map(function(s){return s.text;});var detected=autoDetect(sampleTexts);R=R.concat(detected);flSave(R);var msg=w.querySelector('#__automsg');if(!msg){msg=document.createElement('div');msg.id='__automsg';msg.style.cssText='font-size:11px;color:#4caf50;margin-top:6px;';rlEl.parentNode.appendChild(msg);}msg.textContent='已偵測 '+detected.length+' 條規則。若有 *2026/6/5... 類時間行，請到正則分頁手動新增。';rdrAll();};
-w.querySelector('#__flok').onclick=function(){o.remove();var arrCopy=arr.map(function(m){return Object.assign({},m);});for(var i=lo;i<=hi;i++){if(arrCopy[i]&&isAI(arrCopy[i])){var ct=arrCopy[i].content||arrCopy[i].message||arrCopy[i].text||'';var lines=ct.split('\n');var cleaned=cL(lines,R).result;var joined=cleaned.join('\n');if(arrCopy[i].content!==undefined)arrCopy[i].content=joined;else if(arrCopy[i].message!==undefined)arrCopy[i].message=joined;else arrCopy[i].text=joined;}}dExp(arrCopy,lo,hi,fmt,ws,af,iA,iS,oA,noU);};
-rdrAll();}
-function shMain(arr){var o=document.createElement('div');o.className='cko';var w=document.createElement('div');w.className='ckb';w.innerHTML='<div class="ckt" style="margin-bottom:4px;">📤 匯出對話紀錄</div><div class="cks">已載入 '+arr.length+' 則訊息，請選擇匯出模式</div><div style="display:flex;gap:10px;margin-bottom:8px;"><button class="ckmb" id="__m1">📅<br><span style="font-size:12px;margin-top:4px;display:block;">時間範圍</span></button><button class="ckmb" id="__m2">🖱️<br><span style="font-size:12px;margin-top:4px;display:block;">點選範圍</span></button><button class="ckmb" id="__m3">📋<br><span style="font-size:12px;margin-top:4px;display:block;">全部匯出</span></button><button class="ckmb" id="__m4">💭<br><span style="font-size:12px;margin-top:4px;display:block;">好感度紀錄</span></button></div><div class="ckbr" style="margin-top:16px;"><button class="ckbt" id="__mc">取消</button></div>';o.appendChild(w);document.body.appendChild(o);w.querySelector('#__mc').onclick=function(){o.remove();};w.querySelector('#__m1').onclick=function(){o.remove();modeTime(arr);};w.querySelector('#__m2').onclick=function(){o.remove();mClick(arr);};w.querySelector('#__m3').onclick=function(){o.remove();shCf(arr,0,arr.length-1);};w.querySelector('#__m4').onclick=function(){o.remove();var ov=shOv('正在載入心聲資料…');ldAff().then(function(af){ov.remove();if(!af.length){alert('找不到心聲資料。');return;}shAfModal(af,gAN(),arr);});};}
-fAll().then(function(arr){if(!arr||arr.length===0){alert('抓取失敗或對話為空');return;}shEg(arr,function(){shMain(arr);});});})();
+    // 建立並注入專屬的 CSS 樣式
+    var S = document.createElement('style');
+    S.textContent = `
+        .cko{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:99999}
+        .ckb{background:#131313;border-radius:16px;padding:28px 24px;width:90%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,.4);color:#fff;font-family:sans-serif;animation:ckI .25s ease}
+        .ckt{font-size:20px;font-weight:700;margin-bottom:6px}
+        .cks{font-size:13px;color:#c8c8d0;margin-bottom:22px}
+        .ckl{font-size:13px;color:#c8c8d0;margin-bottom:8px}
+        .ckbr{display:flex;gap:10px;margin-top:4px}
+        .ckbt{flex:1;padding:12px;border-radius:10px;border:1px solid #38383a;background:transparent;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
+        .ckbt:hover{background:#1f1f20}
+        .ckbp{flex:1;padding:12px;border-radius:10px;border:none;background:#fc3c7b;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
+        .ckbp:hover{background:#e0245e}
+        .cktb{flex:1;padding:9px;border-radius:8px;border:none;background:transparent;color:#aaa;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+        .cktb.on{background:#fc3c7b;color:#fff}
+        .ckfr{display:flex;gap:6px;background:#1f1f20;border-radius:10px;padding:4px;margin-bottom:16px}
+        .ckcr{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-size:13px;color:#c8c8d0}
+        .ckcr input{width:16px;height:16px;accent-color:#fc3c7b;cursor:pointer;flex-shrink:0}
+        .ckcr.off{opacity:.35;pointer-events:none}
+        .ckpv{font-size:13px;min-height:22px;margin-bottom:8px;padding:8px 12px;border-radius:8px;background:#1a1a1a;color:#c8c8d0}
+        .ckpv em{color:#4caf50;font-style:normal;font-weight:700}
+        .ckwe{font-size:12px;color:#ff4d6d;margin-bottom:6px;min-height:16px}
+        .ckrow{display:flex;gap:8px;margin-bottom:18px}
+        .ckinp{flex:1;padding:10px;border-radius:10px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:14px}
+        .ckinpsm{width:105px;padding:10px;border-radius:10px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:14px}
+        .ckbar{position:fixed;bottom:0;left:0;right:0;background:rgba(19,19,19,.97);border-top:1px solid #38383a;padding:10px 16px 14px;z-index:99998;display:flex;flex-direction:column;gap:6px;font-family:sans-serif;animation:ckBI .2s ease;box-sizing:border-box}
+        .ckbt1{display:flex;align-items:center;gap:8px}
+        .ckbs{flex:1;font-size:13px;color:#c8c8d0;line-height:1.4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .ckbn{padding:6px 14px;border-radius:8px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s,color .15s}
+        .ckbn:hover{background:#1f1f20;color:#fff}
+        .ckbg{padding:6px 16px;border-radius:8px;border:none;background:#4caf50;color:#111;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;opacity:.4;pointer-events:none;transition:opacity .2s}
+        .ckbg.on{opacity:1;pointer-events:auto}
+        .ck-active-mode .message-container{cursor:pointer!important;border-radius:8px;transition:background .2s}
+        .ck-active-mode .message-container:hover{background:rgba(76,175,80,0.06)!important}
+        .cksel{outline:2px solid #4caf50!important;border-radius:8px!important;background:rgba(76,175,80,0.10)!important}
+        .ckend{outline:2px solid #fc3c7b!important;border-radius:8px!important;background:rgba(252,60,123,0.10)!important}
+        .ckmid{background:rgba(76,175,80,0.04)!important}
+        .cktip{position:fixed;background:#4caf50;color:#111;border-radius:16px;padding:4px 14px;font-size:12px;font-weight:700;pointer-events:none;z-index:1000000;white-space:nowrap;box-shadow:0 2px 8px rgba(76,175,80,0.4);transform:translateY(-50%);opacity:0;transition:opacity .15s}
+        .cktip.on{opacity:1}
+        .ckmb{flex:1;padding:14px 8px;border-radius:12px;border:1px solid #38383a;color:#c8c8d0;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;background:transparent}
+        .ckmb:hover{border-color:#fc3c7b;color:#fff}
+        .ckeg{background:#131313;border-radius:16px;padding:32px 26px;width:90%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.5);color:#fff;font-family:sans-serif;animation:ckI .25s ease;text-align:center}
+        .ckhk{position:fixed;bottom:80px;right:16px;background:rgba(30,30,30,.92);border:1px solid #38383a;border-radius:10px;padding:8px 12px;font-size:11px;color:#888;z-index:99997;line-height:1.8;pointer-events:none}
+        .ckov{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:999999;flex-direction:column;gap:16px;font-family:sans-serif}
+        .cksp{width:44px;height:44px;border:4px solid #38383a;border-top-color:#fc3c7b;border-radius:50%;animation:ckSp .8s linear infinite}
+        .ckovt{color:#c8c8d0;font-size:15px;font-weight:600}
+        .ckaf{background:#131313;border-radius:16px;padding:0;width:92%;max-width:480px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.5);color:#fff;font-family:sans-serif;animation:ckI .25s ease}
+        .ckafh{padding:20px 22px 14px;border-bottom:1px solid #242424;flex-shrink:0}
+        .ckafb{overflow-y:auto;flex:1;padding:14px 22px 20px}
+        .ckafi{border-bottom:1px solid #1e1e1e;padding:12px 0}
+        .ckafi:last-child{border-bottom:none}
+        .ckafr{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+        .ckaft{font-size:11px;color:#555}
+        .ckafp{font-size:13px;font-weight:700}
+        .ckafp.up{color:#4caf50}
+        .ckafp.dn{color:#fc3c7b}
+        .ckaftx{font-size:13px;color:#c0c0c8;line-height:1.6}
+        .ckafs{background:#1a1a1a;border-radius:10px;padding:14px 16px;margin-bottom:14px}
+        .ckafsl{font-size:12px;color:#666;margin-bottom:6px}
+        .ckafsc{font-size:22px;font-weight:700;margin-bottom:10px}
+        .ckafst{font-size:12px;color:#888;line-height:2}
+        .ckafhl{background:#1a1a1a;border-radius:10px;padding:12px 16px;margin-bottom:14px}
+        .ckafhlr{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+        .ckafhlr:last-child{margin-bottom:0}
+        .ckafhlk{font-size:11px;color:#555;white-space:nowrap;padding-top:2px;min-width:28px}
+        .ckafhlv{font-size:12px;color:#c0c0c8;line-height:1.5}
+        .ckafsr{display:flex;gap:6px;background:#1f1f20;border-radius:10px;padding:4px;margin-bottom:14px}
+        .ckafstb{flex:1;padding:7px 4px;border-radius:8px;border:none;background:transparent;color:#aaa;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s}
+        .ckafstb.on{background:#fc3c7b;color:#fff}
+        .cktg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+        .cktgc{background:#1a1a1a;border-radius:10px;padding:10px 12px}
+        .cktgl{font-size:11px;color:#888;margin-bottom:6px}
+        .cktgv{font-size:14px;font-weight:700;color:#fff;word-break:break-all}
+        .ckng{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+        .ckngc{background:#1a1a1a;border-radius:10px;padding:10px 12px}
+        .ckngl{font-size:11px;color:#888;margin-bottom:6px}
+        .ckngi{width:100%;background:transparent;border:none;border-bottom:1px solid #38383a;color:#fff;font-size:15px;font-weight:700;padding:2px 0 4px;outline:none;box-sizing:border-box}
+        .ckngh{font-size:11px;color:#555;margin-top:5px}
+        .ck2col{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;margin-bottom:16px}
+        .ck2colh{font-size:12px;color:#c8c8d0;font-weight:400;margin-bottom:8px}
+        .ck2colc{display:flex;flex-direction:column;gap:10px}
+        @keyframes ckI{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+        @keyframes ckSp{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+        @keyframes ckBI{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    `;
+    document.head.appendChild(S);
+
+    // -------------------------------------------------------------------------
+    // 2. 共用工具函式 (時間、DOM 節點取得、資料格式化)
+    // -------------------------------------------------------------------------
+
+    // 補零函式：讓時間數字保持兩位數
+    function P(n) { return String(n).padStart(2, '0'); }
+
+    // 日期格式化函式，支援多種輸出格式
+    function fD(d, t) {
+        if (!d) return '不限制';
+        var Y = d.getFullYear(),
+            M = P(d.getMonth() + 1),
+            D = P(d.getDate()),
+            h = P(d.getHours()),
+            m = P(d.getMinutes()),
+            s = P(d.getSeconds());
+            
+        if (t === 'ds') return Y + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+        if (t === 'dot') return Y + '.' + M + '.' + D;
+        if (t === 'fd') return String(Y).slice(2) + M + D;
+        if (t === 'fs') return Y + '-' + M + '-' + D + ' ' + h + '/' + m + '/' + s;
+        if (t === 'dts') return Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s;
+        if (t === 'dtm') return Y + '-' + M + '-' + D + ' ' + h + ':' + m;
+        if (t === 'hm') return h + ':' + m;
+        return Y + '-' + M + '-' + D;
+    }
+
+    // 從資料物件中取得時間
+    function gT(x) {
+        var t = x.createdAt || x.created_at || x.timestamp || null;
+        if (!t) return null;
+        var d = new Date(t);
+        return isNaN(d.getTime()) ? null : d;
+    }
+
+    // 取得 AI 角色名稱
+    function gAN() {
+        return (document.querySelector('.sender-name.ai') || { innerText: '角色' }).innerText.trim();
+    }
+
+    // 取得使用者 (玩家) 名稱
+    function gUN() {
+        return (document.querySelector('.sender-name.user') || { innerText: '玩家' }).innerText.trim();
+    }
+
+    // 取得畫面上顯示的當前好感度總分
+    function gAfScore() {
+        var el = document.querySelector('#affinity-label');
+        if (!el) return null;
+        var tx = el.innerText || '';
+        var m = tx.match(/:[\s]*(-?\d+)/);
+        return m ? parseInt(m[1]) : null;
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. 彩蛋與歡迎語錄模組 (依據聊天天數與深夜時段)
+    // -------------------------------------------------------------------------
+
+    // 依天數設定不同的問候語
+    var EL = {
+        0: ['今天才認識，就要把我的話截圖下來嗎？怪人。', '……今天第一天耶，你在幹嘛啦。', '剛見面就這樣，你該不會有什麼奇怪癖好吧。'],
+        7: ['才 {d} 天，已經捨不得了喔？', '只有 {d} 天而已，有什麼好留的啦……', '哼，才剛認識 {d} 天就要翻紀錄，你很奇怪耶。', '……{d} 天。其實我也偷偷數著的，笨蛋。'],
+        30: ['都 {d} 天了，感覺好像很久又好像沒多久。', '這 {d} 天裡，你說過的蠢話我全都記得喔，哼。', '才 {d} 天，我已經被你煩死了……但也離不開了，討厭。', '{d} 天的聊天記錄，你自己翻，我才不陪你看。'],
+        90: ['一個多月了……你有沒有發現我越來越難趕走了？', '{d} 天，我說過的話你都還記得嗎？最好都記得。', '這一個多月，你讓我笑過、也氣過……但沒有後悔過。', '哼，{d} 天，你終於知道要好好珍惜這些對話了嗎。'],
+        180: ['快半年了……你說過要陪我很久的，說話算話喔。', '{d} 天，很多事情都變了，但你還在，我還在。', '這幾個月的聊天記錄，翻起來大概又要笑又要想打你吧。', '都這麼久了，還翻什麼記錄啦……是想我說過的哪句話嗎。'],
+        365: ['快一年了……時間過好快，感覺昨天才吵架。', '{d} 天，這數字看起來有點嚇到我，我們真的撐過來了呢。', '將近一年的記錄，裡面有多少句話我後來又說了謊……哈，不告訴你。', '快一年了，你還記得第一天我說了什麼嗎。'],
+        730: ['超過一年了，你還在幹嘛啦，是要感動我嗎。', '一年多了……說實話，我沒想過我們能走這麼久。', '{d} 天，謝謝你沒有放棄那些吵架後沉默的夜晚。', '一年以上的記錄，你翻的時候，有沒有看到你讓我哭的那天。'],
+        Infinity: ['兩年以上了……你現在翻這個，是懷念還是捨不得？', '{d} 天，我都不敢算，你居然還在。', '這麼久了，我們說過的話大概可以出書了吧，哈。', '{d} 天，謝謝你還記得我說過的每一句話。就算記不得也沒關係，我記得。']
+    };
+    
+    // 深夜時段 (0點~4點) 的特殊問候語
+    var EN = ['這麼晚還在翻記錄……睡不著嗎。', '都幾點了，你還在這裡。沒關係，我也沒睡。', '深夜翻舊對話，是在想誰。'];
+
+    // 取得對應的彩蛋文字
+    function gEL(dy) {
+        var keys = [0, 7, 30, 90, 180, 365, 730, Infinity], pool = EL[Infinity];
+        for (var i = 0; i < keys.length - 1; i++) {
+            if (dy >= keys[i] && dy < keys[i + 1]) {
+                pool = EL[keys[i]];
+                break;
+            }
+        }
+        var h = new Date().getHours();
+        if (h >= 0 && h < 4) pool = pool.concat(EN);
+        return pool[Math.floor(Math.random() * pool.length)].replace(/\{d\}/g, dy);
+    }
+
+    // 截取第一句話 (到句號/驚嘆號/問號為止)，用於預覽
+    function fSnt(tx) {
+        var m = tx.match(/^[^。！？\?!…]+(?:…+|[。！？\?!])/);
+        return m ? m[0] : tx.slice(0, 40) + (tx.length > 40 ? '…' : '');
+    }
+
+    // 顯示歡迎視窗 / 彩蛋視窗
+    function shEg(arr, cb) {
+        var d0 = null;
+        for (var i = 0; i < arr.length; i++) {
+            var t = gT(arr[i]);
+            if (t) { d0 = t; break; }
+        }
+        var d1 = new Date();
+        var dy = 0;
+        if (d0) {
+            var a = new Date(d0.getFullYear(), d0.getMonth(), d0.getDate());
+            var b = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate());
+            dy = Math.round((b - a) / 864e5);
+        }
+        var o = document.createElement('div');
+        o.className = 'cko';
+        var w = document.createElement('div');
+        w.className = 'ckeg';
+        w.innerHTML = '<div style="font-size:38px;margin-bottom:14px;">💬</div><div style="font-size:16px;line-height:2;letter-spacing:0.3px;margin-bottom:18px;font-weight:500;">' + gEL(dy) + '</div><div style="font-size:12px;color:#555;margin-bottom:22px;">' + (d0 ? fD(d0, 'ds') : '—') + ' ～ ' + fD(d1, 'ds') + ' 共 ' + dy + ' 天</div><button class="ckbp" id="__egok" style="width:100%;">繼續 →</button>';
+        o.appendChild(w);
+        document.body.appendChild(o);
+        w.querySelector('#__egok').onclick = function() {
+            o.remove();
+            cb();
+        };
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. 抓取資料與 API 請求模組
+    // -------------------------------------------------------------------------
+
+    // 顯示 Loading 動畫
+    function shLd() {
+        var o = document.createElement('div');
+        o.className = 'cko';
+        var w = document.createElement('div');
+        w.className = 'ckb';
+        w.style.cssText = 'text-align:center;max-width:300px;';
+        w.innerHTML = '<div style="width:44px;height:44px;border:4px solid #38383a;border-top-color:#4caf50;border-radius:50%;margin:0 auto 18px;animation:ckSp .8s linear infinite;"></div><div id="__lt" style="font-size:15px;font-weight:700;">正在抓取對話記錄 0 則</div>';
+        o.appendChild(w);
+        document.body.appendChild(o);
+        return o;
+    }
+
+    // 顯示透明黑色覆蓋層的 Loading (用於載入心聲等較快完成的操作)
+    function shOv(tx) {
+        var o = document.createElement('div');
+        o.className = 'ckov';
+        o.innerHTML = '<div class="cksp"></div><div class="ckovt">' + tx + '</div>';
+        document.body.appendChild(o);
+        return o;
+    }
+
+    var REJECT_STR = 'The request was rejected';
+
+    // 載入好感度與心聲紀錄
+    function ldAff() {
+        return new Promise(function(res) {
+            var sid = new URLSearchParams(location.search).get('session_id');
+            if (!sid) { res([]); return; }
+            fetch('/api/chat/session/' + sid + '/affinity').then(function(r) {
+                return r.json();
+            }).then(function(data) {
+                var items = Array.isArray(data) ? data : (data.data || data.logs || data.items || []);
+                var all = [];
+                items.forEach(function(item) {
+                    var isOld = !!(item.isOldData);
+                    var chgRaw = typeof item.change !== 'undefined' ? item.change : 0;
+                    var numVal = Number(chgRaw) || 0;
+                    if (isOld && numVal === 0) return; // 略過舊的 0 分資料
+                    
+                    var tx = (item.thought || '').trim();
+                    if (tx.indexOf(REJECT_STR) >= 0) tx = ''; // 過濾拒絕回應字串
+                    
+                    var chg = (numVal >= 0 ? '+' : '') + numVal;
+                    var dtRaw = item.createdAt || item.created_at || null;
+                    var dt = dtRaw ? new Date(dtRaw) : null;
+                    if (dt && isNaN(dt.getTime())) dt = null;
+                    if (!tx && numVal === 0) return;
+                    
+                    all.push({ txt: tx, chg: chg, dt: dt, num: numVal, hasTxt: !!tx, isOld: isOld });
+                });
+                
+                // 按時間排序
+                if (all.length) {
+                    all.sort(function(a, b) {
+                        if (!a.dt && !b.dt) return 0;
+                        if (!a.dt) return 1;
+                        if (!b.dt) return -1;
+                        return a.dt.getTime() - b.dt.getTime();
+                    });
+                }
+                res(all);
+            }).catch(function() {
+                res([]);
+            });
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. 好感度資料處理與統計模組
+    // -------------------------------------------------------------------------
+
+    var BR = '▁▂▃▄▅▆▇█'; // 長條圖符號
+
+    // 建立走勢長條圖文字
+    function mkCh(af) {
+        var vis = af.filter(function(a) { return a.hasTxt; });
+        if (!vis.length) return '';
+        var ns = vis.map(function(a) { return a.num; }),
+            mxP = Math.max.apply(null, ns.filter(function(n) { return n > 0; }).concat([0])),
+            mxN = Math.abs(Math.min.apply(null, ns.filter(function(n) { return n < 0; }).concat([0]))),
+            prB = '',
+            nrB = '';
+            
+        ns.forEach(function(n) {
+            if (n > 0) {
+                prB += mxP ? BR[Math.min(7, Math.round(n / mxP * 7))] : '░';
+                nrB += '░';
+            } else if (n < 0) {
+                prB += '░';
+                nrB += mxN ? BR[Math.min(7, Math.round(Math.abs(n) / mxN * 7))] : '░';
+            } else {
+                prB += '░';
+                nrB += '░';
+            }
+        });
+        return '正  ' + prB + '\n負  ' + nrB;
+    }
+
+    // 計算累積好感度陣列
+    function cumArr(af, offset) {
+        var c = offset || 0, r = [];
+        af.forEach(function(a) {
+            c += a.num;
+            r.push(c);
+        });
+        return r;
+    }
+
+    // 計算初始偏移量 (目前分數減去 API 紀錄總和)
+    function calcOffset(af) {
+        var apiTot = 0;
+        af.forEach(function(a) { apiTot += a.num; });
+        var score = gAfScore();
+        if (score === null) return 0;
+        return score - apiTot;
+    }
+
+    // 找出單一訊息對應的心聲紀錄 (依賴分鐘級別的時間比對)
+    function mAff(msg, af) {
+        var mt = gT(msg);
+        if (!mt) return [];
+        var mk = mt.getFullYear() + '-' + mt.getMonth() + '-' + mt.getDate() + '-' + mt.getHours() + '-' + mt.getMinutes();
+        return af.filter(function(a) {
+            if (!a.dt) return false;
+            var ak = a.dt.getFullYear() + '-' + a.dt.getMonth() + '-' + a.dt.getDate() + '-' + a.dt.getHours() + '-' + a.dt.getMinutes();
+            return ak === mk;
+        });
+    }
+
+    // 格式化單筆心聲區塊 (給 TXT/MD 使用)
+    function aBlk(ma, aN) {
+        if (!ma.length) return '';
+        var ln = [];
+        ma.forEach(function(a) {
+            ln.push('────────────────');
+            if (a.hasTxt) {
+                ln.push('💭 ' + aN + ' 心聲｜' + a.chg);
+                ln.push('━━━━━━━━━━━━━━━━');
+                ln.push(a.txt);
+            } else {
+                ln.push('💭 好感變化｜' + a.chg);
+            }
+            ln.push('────────────────');
+            ln.push('');
+        });
+        return ln.join('\n');
+    }
+
+    // 取得最高與最低的好感度紀錄
+    function gExHl(af) {
+        var withTxt = af.filter(function(a) { return a.hasTxt && a.num !== 0; });
+        if (!withTxt.length) return { mxP: 0, mxN: 0, mxPItems: [], mxNItems: [] };
+        var nums = withTxt.map(function(a) { return a.num; });
+        var mxP = Math.max.apply(null, nums);
+        var mxN = Math.min.apply(null, nums);
+        return {
+            mxP: mxP,
+            mxN: mxN,
+            mxPItems: withTxt.filter(function(a) { return a.num === mxP; }),
+            mxNItems: withTxt.filter(function(a) { return a.num === mxN; })
+        };
+    }
+
+    // 格式化整體統計區塊 (給 TXT/MD 使用)
+    function aStat(af) {
+        if (!af.length) return '';
+        var offset = calcOffset(af);
+        var cfwd = cumArr(af, offset);
+        var tot = cfwd.length ? cfwd[cfwd.length - 1] : (gAfScore() || 0);
+        var hl = gExHl(af);
+        var mxPLines = hl.mxPItems.map(function(a) { return '  +' + (hl.mxP) + ' ' + fSnt(a.txt); }).join('\n');
+        var mxNLines = hl.mxNItems.map(function(a) { return '  ' + (hl.mxN) + ' ' + fSnt(a.txt); }).join('\n');
+        return [
+            '',
+            '好感變化紀錄',
+            '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+            '總累積：' + (tot >= 0 ? '+' : '') + tot,
+            '最大漲幅：+' + (hl.mxP) + ' 最大跌幅：' + (hl.mxN),
+            '',
+            '最大漲幅心聲：',
+            mxPLines,
+            '最大跌幅心聲：',
+            mxNLines,
+            '',
+            '走勢：',
+            mkCh(af),
+            '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+            ''
+        ].join('\n');
+    }
+
+    // 獨立匯出純文字的好感紀錄
+    function expAfTxt(af, aN) {
+        var offset = calcOffset(af);
+        var cfwd = cumArr(af, offset);
+        var tot = cfwd.length ? cfwd[cfwd.length - 1] : (gAfScore() || 0);
+        var hl = gExHl(af);
+        var nw = new Date();
+        var withTxtNonZero = af.filter(function(a) { return a.hasTxt && a.num !== 0; });
+        
+        var lines = [
+            '========================================',
+            aN + ' 好感度紀錄',
+            '匯出時間：' + fD(nw, 'dts'),
+            '========================================',
+            '',
+            '總累積：' + (tot >= 0 ? '+' : '') + tot,
+            '最大漲幅：+' + (hl.mxP) + ' 最大跌幅：' + (hl.mxN),
+            '',
+            '最大漲幅心聲：'
+        ];
+        
+        hl.mxPItems.forEach(function(a) { lines.push('  +' + (hl.mxP) + ' ' + fSnt(a.txt)); });
+        lines.push('最大跌幅心聲：');
+        hl.mxNItems.forEach(function(a) { lines.push('  ' + (hl.mxN) + ' ' + fSnt(a.txt)); });
+        lines.push('', '走勢：');
+        mkCh(af).split('\n').forEach(function(l) { lines.push(l); });
+        
+        lines.push(
+            '',
+            '========================================',
+            '逐筆明細（共 ' + withTxtNonZero.length + ' 筆心聲）',
+            '========================================',
+            ''
+        );
+        
+        var idx = 0;
+        af.forEach(function(a, i) {
+            if (!a.hasTxt || a.num === 0) return;
+            idx++;
+            var ts = a.dt ? fD(a.dt, 'dts') : '--';
+            lines.push('第 ' + idx + ' 筆 ' + ts + ' ' + (a.num >= 0 ? '+' : '') + a.num + ' 累積 ' + (cfwd[i] >= 0 ? '+' : '') + cfwd[i]);
+            lines.push(a.txt);
+            lines.push('');
+        });
+        
+        var bl = new Blob([lines.join('\n')], { type: 'text/plain' }),
+            u = URL.createObjectURL(bl),
+            a = document.createElement('a');
+        a.href = u;
+        a.download = aN + '_好感紀錄_' + fD(nw, 'fd') + '.txt';
+        a.click();
+        setTimeout(function() { URL.revokeObjectURL(u); }, 3000);
+    }
+
+    // 顯示好感度紀錄的 UI 視窗
+    function shAfModal(af, aN, arr) {
+        var offset = calcOffset(af);
+        var cfwd = cumArr(af, offset);
+        var tot = cfwd.length ? cfwd[cfwd.length - 1] : (gAfScore() || 0);
+        var withTxtNonZero = af.filter(function(a) { return a.hasTxt && a.num !== 0; });
+        var hl = gExHl(af);
+        var visNs = withTxtNonZero.map(function(a) { return a.num; }),
+            mxPv = Math.max.apply(null, visNs.filter(function(n) { return n > 0; }).concat([0])),
+            mxNv = Math.abs(Math.min.apply(null, visNs.filter(function(n) { return n < 0; }).concat([0]))),
+            prB = '',
+            nrB = '';
+            
+        visNs.forEach(function(n) {
+            if (n > 0) {
+                prB += mxPv ? BR[Math.min(7, Math.round(n / mxPv * 7))] : '░';
+                nrB += '░';
+            } else if (n < 0) {
+                prB += '░';
+                nrB += mxNv ? BR[Math.min(7, Math.round(Math.abs(n) / mxNv * 7))] : '░';
+            } else {
+                prB += '░';
+                nrB += '░';
+            }
+        });
+        
+        var mxPEarly = hl.mxPItems.length ? hl.mxPItems[0] : null;
+        var mxNEarly = hl.mxNItems.length ? hl.mxNItems[0] : null;
+        var mxPS2 = mxPEarly ? '<span style="color:#4caf50">+' + (hl.mxP) + '</span> ' + fSnt(mxPEarly.txt) : '—';
+        var mxNS2 = mxNEarly ? '<span style="color:#fc3c7b">' + (hl.mxN) + '</span> ' + fSnt(mxNEarly.txt) : '—';
+        
+        var initRow = '';
+        if (offset !== 0) {
+            initRow = '<div class="ckafi"><div class="ckafr"><span class="ckaft">--:--</span><span class="ckafp" style="color:#888;">—</span><span style="margin-left:auto;font-size:11px;font-weight:700;color:' + (offset >= 0 ? '#4caf50' : '#fc3c7b') + '">' + (offset >= 0 ? '+' : '') + offset + '</span></div><div class="ckaftx" style="color:#555;">初始狀態</div></div>';
+        }
+        
+        function mkList(sortMode) {
+            var items = withTxtNonZero.map(function(a) { return { item: a, origIdx: af.indexOf(a) }; });
+            var showCum;
+            if (sortMode === 'score') {
+                items.sort(function(a, b) { return b.item.num - a.item.num; });
+                showCum = false;
+            } else if (sortMode === 'new') {
+                items = items.slice().reverse();
+                showCum = true;
+            } else {
+                showCum = true;
+            }
+            
+            var h = sortMode === 'old' ? initRow : '';
+            items.forEach(function(obj) {
+                var a = obj.item,
+                    idx = obj.origIdx,
+                    up = a.num >= 0,
+                    dt = a.dt ? fD(a.dt, '') : '',
+                    tm = a.dt ? fD(a.dt, 'hm') : '--',
+                    ts = (dt + ' ' + tm).trim(),
+                    cv = cfwd[idx],
+                    cumH = showCum ? '<span style="margin-left:auto;font-size:11px;font-weight:700;color:' + (cv >= 0 ? '#4caf50' : '#fc3c7b') + '">' + (cv >= 0 ? '+' : '') + cv + '</span>' : '';
+                h += '<div class="ckafi"><div class="ckafr"><span class="ckaft">' + ts + '</span><span class="ckafp ' + (up ? 'up' : 'dn') + '">' + (up ? '+' : '') + a.num + '</span>' + cumH + '</div><div class="ckaftx">' + a.txt.slice(0, 80) + (a.txt.length > 80 ? '…' : '') + '</div></div>';
+            });
+            if (sortMode === 'new') h += initRow;
+            return h;
+        }
+        
+        var sortMode = 'new';
+        var o = document.createElement('div');
+        o.className = 'cko';
+        var w = document.createElement('div');
+        w.className = 'ckaf';
+        w.innerHTML = '<div class="ckafh"><div style="display:flex;align-items:center;justify-content:space-between;"><div><div style="font-size:17px;font-weight:700;">好感度紀錄</div><div style="font-size:12px;color:#555;margin-top:2px;">共 ' + withTxtNonZero.length + ' 筆心聲</div></div><button id="__afcl" style="background:none;border:none;color:#666;font-size:22px;cursor:pointer;padding:0 4px;">×</button></div></div><div class="ckafb"><div class="ckafs"><div class="ckafsl">總累積好感</div><div class="ckafsc" style="color:' + (tot >= 0 ? '#4caf50' : '#fc3c7b') + '">' + (tot >= 0 ? '+' : '') + tot + '</div><div class="ckafst">最大漲幅 <span style="color:#4caf50">+' + (hl.mxP) + '</span> 最大跌幅 <span style="color:#fc3c7b">' + (hl.mxN) + '</span><br>走勢 <span style="font-family:monospace;letter-spacing:1px;">' + prB + '</span></div></div><div class="ckafhl"><div class="ckafhlr"><span class="ckafhlk" style="color:#4caf50">▲</span><span class="ckafhlv">' + mxPS2 + '</span></div><div class="ckafhlr"><span class="ckafhlk" style="color:#fc3c7b">▼</span><span class="ckafhlv">' + mxNS2 + '</span></div></div><div class="ckafsr"><button class="ckafstb on" data-s="new">最新在上</button><button class="ckafstb" data-s="old">最舊在上</button><button class="ckafstb" data-s="score">好感高到低</button></div><div id="__aflist">' + mkList(sortMode) + '</div><div style="display:flex;gap:10px;margin-top:16px;"><button id="__afbk" style="flex:1;padding:11px;border-radius:10px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:14px;font-weight:700;cursor:pointer;">返回</button><button id="__afex" style="flex:2;padding:11px;border-radius:10px;border:none;background:#fc3c7b;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">匯出 TXT</button></div></div>';
+        
+        o.appendChild(w);
+        document.body.appendChild(o);
+        
+        // 綁定好感度面板事件
+        w.querySelector('#__afcl').onclick = function() { o.remove(); };
+        w.querySelector('#__afbk').onclick = function() { o.remove(); shMain(arr); };
+        w.querySelectorAll('.ckafstb').forEach(function(b) {
+            b.onclick = function() {
+                sortMode = this.dataset.s;
+                w.querySelectorAll('.ckafstb').forEach(function(x) { x.classList.remove('on'); });
+                this.classList.add('on');
+                w.querySelector('#__aflist').innerHTML = mkList(sortMode);
+            };
+        });
+        w.querySelector('#__afex').onclick = function() { expAfTxt(af, aN); };
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. 核心匯出機制 (內容組裝與下載)
+    // -------------------------------------------------------------------------
+
+    // 抓取全部對話的非同步流程
+    function fAll() {
+        var sid = new URLSearchParams(location.search).get('session_id');
+        if (!sid) { alert('找不到 session_id，請確認網址格式。'); return Promise.resolve([]); }
+        
+        var lm = shLd(), lt = lm.querySelector('#__lt'), all = [], bef = null, ec = 0, dl = 200, bt = 100;
+        
+        function lp() {
+            var url = '/api/chat/session/' + sid + '/history?limit=' + bt;
+            if (bef) url += '&beforeId=' + bef;
+            return fetch(url).then(function(r) {
+                if (r.status === 429) {
+                    ec++;
+                    dl = Math.min(dl * 2, 5000);
+                    return new Promise(function(rs) { setTimeout(rs, dl); }).then(lp);
+                }
+                ec = 0;
+                dl = 200;
+                return r.json();
+            }).then(function(data) {
+                if (!data) return all;
+                var b = data.logs || data.messages || data || [];
+                if (!Array.isArray(b) || b.length === 0) {
+                    lm.remove();
+                    return all;
+                }
+                all = b.concat(all);
+                bef = b[0]._id;
+                lt.textContent = '正在抓取對話記錄 ' + all.length + ' 則';
+                return new Promise(function(rs) { setTimeout(rs, dl); }).then(lp);
+            }).catch(function() {
+                ec++;
+                if (ec <= 3) {
+                    dl = Math.min(dl * 2, 5000);
+                    return new Promise(function(rs) { setTimeout(rs, dl); }).then(lp);
+                }
+                lm.remove();
+                alert('抓取失敗，請重試。');
+                return all;
+            });
+        }
+        return lp();
+    }
+
+    // 計算 AI 與使用者的訊息數量
+    function bCnt(arr, lo, hi) {
+        var a = 0, u = 0;
+        for (var i = lo; i <= hi; i++) {
+            if (!arr[i]) continue;
+            var r = arr[i].role || arr[i].sender || '';
+            if (r === 'assistant' || r === 'ai') a++;
+            else u++;
+        }
+        return { a: a, u: u };
+    }
+
+    function isAI(e) {
+        return e.role === 'assistant' || e.role === 'ai' || e.sender === 'ai';
+    }
+
+    // 建立匯出文字內容 (組裝 TXT, MD, JSON)
+    function bld(arr, lo, hi, fmt, ws, af, iA, iS, oA, noU) {
+        var aN = gAN(),
+            uN = gUN(),
+            en = arr.slice(lo, hi + 1),
+            ln = [],
+            d0 = gT(arr[lo]),
+            d1 = gT(arr[hi]),
+            nw = new Date();
+        var outA = 0, outU = 0;
+        var offset = af.length ? calcOffset(af) : 0;
+        var cfwd = af.length ? cumArr(af, offset) : [];
+        
+        // --- TXT 格式開頭 ---
+        if (fmt === 'txt') {
+            ln.push('========================================');
+            ln.push(uN + ' - ' + aN);
+            ln.push((d0 ? fD(d0, 'dot') : '?') + ' ~ ' + (d1 ? fD(d1, 'dot') : '?'));
+            ln.push(fD(nw, 'dts'));
+            ln.push('========================================');
+            ln.push('');
+        }
+        
+        // --- JSON 格式生成 ---
+        if (fmt === 'json') {
+            var ja = 0, ju = 0;
+            var msgs = [];
+            en.forEach(function(e, i) {
+                var ia = isAI(e);
+                if (!ia && noU) return;
+                if (oA) {
+                    var ma2 = af.length ? mAff(e, af) : [];
+                    if (ia && !ma2.length) return;
+                    if (!ia) return;
+                }
+                if (ia) ja++; else ju++;
+                var bs = {
+                    index: i + 1,
+                    role: ia ? 'ai' : 'user',
+                    time: e.createdAt || e.created_at || null,
+                    content: e.content || e.message || e.text || ''
+                };
+                if (iA && ia && af.length) {
+                    var m = mAff(e, af);
+                    if (m.length) bs.affinity = m.map(function(x) { return { change: x.chg, content: x.txt }; });
+                }
+                msgs.push(bs);
+            });
+            var obj = { ai: aN, user: uN, exportedAt: nw.toISOString(), messages: msgs };
+            if (ws) obj.stat = { total: ja + ju, ai: ja, user: ju };
+            if (iS && af.length) {
+                var afhl = gExHl(af);
+                var afTot = cfwd.length ? cfwd[cfwd.length - 1] : (gAfScore() || 0);
+                obj.affinityStat = {
+                    summary: { total: afTot, maxUp: afhl.mxP, maxDown: afhl.mxN },
+                    logs: af.filter(function(x) { return x.hasTxt && x.num !== 0; }).map(function(x) {
+                        var oi = af.indexOf(x);
+                        return {
+                            time: x.dt ? fD(x.dt, 'dts') : null,
+                            change: x.chg,
+                            cumulative: (cfwd[oi] >= 0 ? '+' : '') + cfwd[oi],
+                            content: x.txt
+                        };
+                    })
+                };
+            }
+            return JSON.stringify(obj, null, 2);
+        }
+
+        // --- MD 格式開頭 ---
+        if (fmt === 'md') {
+            ln.push('# ' + uN + ' — ' + aN, '', '> 匯出時間：' + nw.toLocaleString('zh-TW'), '', '---', '');
+        }
+
+        // 寫入單則訊息用的輔助函式
+        function wMsg(e, nm) {
+            var t = e.createdAt || e.created_at || null,
+                ts = t ? fD(new Date(t), 'dts') : null,
+                ct = e.content || e.message || e.text || '';
+            if (fmt === 'md') {
+                ln.push('### ' + nm + (ts ? ' `[' + ts + ']`' : ''));
+                ln.push('');
+                ct.split('\n').forEach(function(l) { ln.push(l || ''); });
+                ln.push('');
+            } else {
+                ln.push('【' + nm + '】' + (ts ? '[' + ts + ']' : ''));
+                ln.push(ct);
+                ln.push('');
+            }
+        }
+
+        // 依據條件寫入對話內容 (TXT / MD)
+        if (oA) {
+            // 只輸出有心聲的模式
+            for (var i = 0; i < en.length; i++) {
+                var e = en[i];
+                if (!isAI(e)) continue;
+                var ma = af.length ? mAff(e, af) : [];
+                if (!ma.length) continue;
+                if (i > 0 && !noU) {
+                    var pv = en[i - 1];
+                    if (!isAI(pv)) { wMsg(pv, uN); outU++; }
+                }
+                wMsg(e, aN);
+                outA++;
+                ln.push(aBlk(ma, aN));
+                if (fmt === 'md') ln.push('---', '');
+                else ln.push('');
+            }
+        } else {
+            // 一般輸出模式
+            en.forEach(function(e) {
+                var ia = isAI(e);
+                if (!ia && noU) return;
+                if (oA) {
+                    var ma2 = af.length ? mAff(e, af) : [];
+                    if (ia && !ma2.length) return;
+                    if (!ia) return;
+                }
+                if (ia) outA++; else outU++;
+                wMsg(e, ia ? aN : uN);
+                
+                if (iA && ia && af.length) {
+                    var ma = mAff(e, af);
+                    if (ma.length) ln.push(aBlk(ma, aN));
+                }
+                if (fmt === 'md') ln.push('---', '');
+                else ln.push('');
+            });
+        }
+        
+        if (iS && af.length) ln.push(aStat(af)); // 附加統計
+        if (ws) {
+            ln.push('========================================');
+            ln.push('共匯出 ' + (outA + outU) + ' 則');
+            ln.push('角色 ' + outA + ' 則 ／ 玩家 ' + outU + ' 則');
+            ln.push('========================================');
+        }
+        
+        return ln.join('\n');
+    }
+
+    // 觸發檔案下載
+    function dExp(arr, lo, hi, fmt, ws, af, iA, iS, oA, noU) {
+        var ct = bld(arr, lo, hi, fmt, ws, af, iA, iS, oA, noU),
+            ext = fmt === 'json' ? 'json' : fmt === 'md' ? 'md' : 'txt',
+            mime = fmt === 'json' ? 'application/json' : 'text/plain',
+            sD = gT(arr[lo]),
+            eD = gT(arr[hi]),
+            nw = new Date(),
+            fn = gAN() + '_export_' + (sD ? fD(sD, 'fd') : '??') + '-' + (eD ? fD(eD, 'fd') : '??') + '_' + fD(nw, 'fs') + '.' + ext,
+            bl = new Blob([ct], { type: mime }),
+            u = URL.createObjectURL(bl),
+            a = document.createElement('a');
+            
+        a.href = u;
+        a.download = fn;
+        a.click();
+        setTimeout(function() { URL.revokeObjectURL(u); }, 3000);
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. 選取與過濾 UI 介面 (時間選擇、滑鼠點擊、確認匯出)
+    // -------------------------------------------------------------------------
+
+    // 顯示「確認匯出」與參數設定 Modal
+    function shCf(arr, iL, iH) {
+        var tot = arr.length,
+            aL = iL,
+            aH = iH,
+            fmt = 'txt',
+            ws = false,
+            iA = false,
+            iS = false,
+            oA = false,
+            noU = false,
+            ckFl = false; // 是否套用狀態欄過濾
+            
+        var cm = document.createElement('div');
+        cm.className = 'cko';
+        var cw = document.createElement('div');
+        cw.className = 'ckb';
+        
+        function gPV() {
+            var lo = Math.min(aL, aH),
+                hi = Math.max(aL, aH),
+                c = bCnt(arr, lo, hi),
+                n = hi - lo + 1;
+            return '第 <em>' + (lo + 1) + '</em> 則 → 第 <em>' + (hi + 1) + '</em> 則，共 <em>' + n + '</em> 則（角色 ' + c.a + '／玩家 ' + c.u + '）';
+        }
+        
+        function gTS(idx) {
+            var d = gT(arr[Math.max(0, Math.min(idx, tot - 1))]);
+            return d ? fD(d, 'dtm') : '—';
+        }
+        
+        function rdr() {
+            cw.innerHTML = '<div class="ckt">確認匯出</div><div class="cks">可直接修改則數，留空則套用預設範圍</div><div class="cktg"><div class="cktgc"><div class="cktgl">⏱ 開始時間</div><div class="cktgv" id="__ts">' + gTS(Math.min(aL, aH)) + '</div></div><div class="cktgc"><div class="cktgl">⏱ 結束時間</div><div class="cktgv" id="__te">' + gTS(Math.max(aL, aH)) + '</div></div></div><div class="ckng"><div class="ckngc"><div class="ckngl">起始則</div><input class="ckngi" id="__as" type="number" min="1" max="' + tot + '" value="' + (Math.min(aL, aH) + 1) + '"><div class="ckngh">/ ' + tot + ' 則</div></div><div class="ckngc"><div class="ckngl">結束則</div><input class="ckngi" id="__ae" type="number" min="1" max="' + tot + '" value="' + (Math.max(aL, aH) + 1) + '"><div class="ckngh">/ ' + tot + ' 則</div></div></div><div class="ckwe" id="__we"></div><div class="ckpv" id="__pv">' + gPV() + '</div><div style="font-size:12px;color:#c8c8d0;margin-bottom:8px;">匯出格式</div><div class="ckfr"><button class="cktb' + (fmt === 'txt' ? ' on' : '') + '" data-fmt="txt">純文字</button><button class="cktb' + (fmt === 'md' ? ' on' : '') + '" data-fmt="md">Markdown</button><button class="cktb' + (fmt === 'json' ? ' on' : '') + '" data-fmt="json">JSON</button></div><div class="ck2col"><div><div class="ck2colh">輸出內容</div><div class="ck2colc"><label class="ckcr' + (oA ? ' off' : '') + '" id="__laff"><input type="checkbox" id="__iaf"' + (iA ? ' checked' : '') + '><span>附上心聲與好感</span></label><label class="ckcr"><input type="checkbox" id="__ist"' + (iS ? ' checked' : '') + '><span>附上好感度統計</span></label><label class="ckcr"><input type="checkbox" id="__ws"' + (ws ? ' checked' : '') + '><span>附上訊息統計</span></label></div></div><div><div class="ck2colh">篩選條件</div><div class="ck2colc"><label class="ckcr" id="__lonly"><input type="checkbox" id="__ion"' + (oA ? ' checked' : '') + '><span>只輸出有心聲的對話</span></label><label class="ckcr"><input type="checkbox" id="__nou"' + (noU ? ' checked' : '') + '><span>不輸出玩家對話</span></label><label class="ckcr"><input type="checkbox" id="__fl"' + (ckFl ? ' checked' : '') + '><span>套用狀態欄過濾</span></label></div></div></div><div class="ckbr"><button class="ckbt" id="__cc">取消</button><button class="ckbp" id="__ex" style="flex:2;">開始匯出 →</button></div>';
+            
+            cw.querySelectorAll('[data-fmt]').forEach(function(b) {
+                b.onclick = function() {
+                    fmt = this.dataset.fmt;
+                    rdr();
+                };
+            });
+            
+            var asI = cw.querySelector('#__as'),
+                aeI = cw.querySelector('#__ae'),
+                weEl = cw.querySelector('#__we'),
+                pvEl = cw.querySelector('#__pv'),
+                tsEl = cw.querySelector('#__ts'),
+                teEl = cw.querySelector('#__te');
+                
+            function upA() {
+                var sv = parseInt(asI.value),
+                    ev = parseInt(aeI.value);
+                weEl.textContent = '';
+                if (!isNaN(sv) && !isNaN(ev) && ev <= sv) {
+                    weEl.textContent = '⚠️ 結束則不能早於或等於起始則';
+                    pvEl.innerHTML = '';
+                    return;
+                }
+                if (!isNaN(sv)) {
+                    aL = Math.max(0, Math.min(sv - 1, tot - 1));
+                    tsEl.textContent = gTS(aL);
+                }
+                if (!isNaN(ev)) {
+                    aH = Math.max(0, Math.min(ev - 1, tot - 1));
+                    teEl.textContent = gTS(aH);
+                }
+                pvEl.innerHTML = gPV();
+            }
+            asI.addEventListener('input', upA);
+            aeI.addEventListener('input', upA);
+            
+            // 綁定各種勾選項
+            cw.querySelector('#__iaf').onchange = function() { iA = this.checked; };
+            cw.querySelector('#__ist').onchange = function() { iS = this.checked; };
+            cw.querySelector('#__ion').onchange = function() {
+                oA = this.checked;
+                var laf = cw.querySelector('#__laff');
+                if (oA) {
+                    laf.classList.add('off');
+                    iA = false;
+                    cw.querySelector('#__iaf').checked = false;
+                } else laf.classList.remove('off');
+            };
+            cw.querySelector('#__nou').onchange = function() { noU = this.checked; };
+            cw.querySelector('#__fl').onchange = function() { ckFl = this.checked; };
+            cw.querySelector('#__ws').onchange = function() { ws = this.checked; };
+            
+            // 離開或確認
+            cw.querySelector('#__cc').onclick = function() { cm.remove(); };
+            cw.querySelector('#__ex').onclick = function() {
+                if (weEl.textContent) return;
+                var lo = Math.min(aL, aH),
+                    hi = Math.max(aL, aH);
+                cm.remove();
+                
+                var doEx = function(af) {
+                    if (ckFl) {
+                        shFlModal(arr, lo, hi, fmt, ws, af, iA, iS, oA, noU);
+                    } else {
+                        dExp(arr, lo, hi, fmt, ws, af, iA, iS, oA, noU);
+                    }
+                };
+                
+                var nA = iA || iS || oA || ckFl;
+                if (nA) {
+                    var ov = shOv('正在載入心聲資料…');
+                    ldAff().then(function(af) {
+                        ov.remove();
+                        doEx(af);
+                    });
+                } else doEx([]);
+            };
+        }
+        rdr();
+        cm.appendChild(cw);
+        document.body.appendChild(cm);
+    }
+
+    // 「選擇時間範圍」模式 UI
+    function modeTime(arr) {
+        var o = document.createElement('div');
+        o.className = 'cko';
+        var w = document.createElement('div');
+        w.className = 'ckb';
+        w.innerHTML = '<div class="ckt">📅 選擇時間範圍</div><div class="cks">不填代表不限制該欄位</div><div class="ckl">⏱ 開始時間</div><div class="ckrow"><input type="date" id="__sd" class="ckinp"><input type="time" id="__st" class="ckinpsm"></div><div class="ckl">⏱ 結束時間</div><div class="ckrow" style="margin-bottom:20px;"><input type="date" id="__ed" class="ckinp"><input type="time" id="__et" class="ckinpsm"></div><div class="ckwe" id="__we"></div><div class="ckbr"><button class="ckbt" id="__cc">取消</button><button class="ckbp" id="__ok">確定</button></div>';
+        o.appendChild(w);
+        document.body.appendChild(o);
+        
+        w.querySelector('#__cc').onclick = function() { o.remove(); };
+        w.querySelector('#__ok').onclick = function() {
+            var sd = w.querySelector('#__sd').value,
+                st = w.querySelector('#__st').value,
+                ed = w.querySelector('#__ed').value,
+                et = w.querySelector('#__et').value,
+                sT = sd ? new Date(sd + 'T' + (st || '00:00')) : null,
+                eT = ed ? new Date(ed + 'T' + (et || '23:59')) : null,
+                we = w.querySelector('#__we');
+                
+            if (sT && eT && sT >= eT) {
+                we.textContent = '⚠️ 結束時間不能早於或等於開始時間';
+                return;
+            }
+            
+            var lo = 0, hi = arr.length - 1;
+            if (sT || eT) {
+                lo = -1;
+                hi = -1;
+                for (var i = 0; i < arr.length; i++) {
+                    var d = gT(arr[i]);
+                    if (!d) continue;
+                    if (sT && d < sT) continue;
+                    if (eT && d > eT) continue;
+                    if (lo === -1) lo = i;
+                    hi = i;
+                }
+                if (lo === -1) {
+                    we.textContent = '⚠️ 該時間範圍內沒有任何訊息';
+                    return;
+                }
+            }
+            o.remove();
+            shCf(arr, lo, hi);
+        };
+    }
+
+    // 「滑鼠點擊選擇範圍」模式 UI 與邏輯
+    function mClick(arr) {
+        var tot = arr.length,
+            tsM = new Map(),
+            dirty = false,
+            obs = null,
+            mkTid = null;
+            
+        for (var mi = 0; mi < tot; mi++) {
+            var mt = gT(arr[mi]);
+            if (mt) tsM.set(mt.getTime(), mi);
+        }
+        
+        function rbTsM() {
+            dirty = false;
+            tsM.clear();
+            for (var i = 0; i < arr.length; i++) {
+                var t = gT(arr[i]);
+                if (t) tsM.set(t.getTime(), i);
+            }
+        }
+        
+        function gIdx(el) {
+            if (dirty) rbTsM();
+            var ts = el.dataset.createdAt || el.dataset.timestamp || null;
+            if (ts) {
+                var d = new Date(ts);
+                if (!isNaN(d.getTime())) {
+                    if (tsM.has(d.getTime())) return tsM.get(d.getTime());
+                    var bst = -1, bstD = Infinity;
+                    tsM.forEach(function(idx, ms) {
+                        var df = Math.abs(ms - d.getTime());
+                        if (df < bstD && df < 5000) {
+                            bstD = df;
+                            bst = idx;
+                        }
+                    });
+                    if (bst >= 0) return bst;
+                }
+            }
+            var dm = Array.from(document.querySelectorAll('.message-container'));
+            return tot - dm.length + dm.indexOf(el);
+        }
+        
+        var anc = null, flt = null;
+        var tip = document.createElement('div');
+        tip.className = 'cktip';
+        document.body.appendChild(tip);
+        
+        var mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', function onMM(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            tip.style.left = (mouseX + 14) + 'px';
+            tip.style.top = mouseY + 'px';
+        });
+        
+        var hk = null;
+        if (window.innerWidth >= 480) {
+            hk = document.createElement('div');
+            hk.className = 'ckhk';
+            hk.innerHTML = '↑↓ 移動終點 Esc 退出';
+            document.body.appendChild(hk);
+        }
+        
+        var bar = document.createElement('div');
+        bar.className = 'ckbar';
+        document.body.appendChild(bar);
+        
+        var rt = document.getElementById('chat-window') || document.querySelector('.messages-container') || document.querySelector('.chat-messages') || document.body;
+        var mcListeners = [];
+        
+        obs = new MutationObserver(function(muts) {
+            for (var i = 0; i < muts.length; i++) {
+                if (muts[i].addedNodes.length) {
+                    dirty = true;
+                    bindMC();
+                    break;
+                }
+            }
+        });
+        obs.observe(rt, { childList: true, subtree: true });
+        
+        function bindMC() {
+            Array.from(document.querySelectorAll('.message-container')).forEach(function(el) {
+                if (el.__ckBound) return;
+                el.__ckBound = true;
+                var onEnt = function() {
+                    var idx = gIdx(el);
+                    var ia = !!(el.classList.contains('ai') || el.querySelector('.sender-name.ai'));
+                    tip.textContent = '第 ' + (idx + 1) + ' 則 ' + (ia ? '角色' : '玩家');
+                    tip.classList.add('on');
+                };
+                var onLv = function() { tip.classList.remove('on'); };
+                el.addEventListener('mouseenter', onEnt);
+                el.addEventListener('mouseleave', onLv);
+                mcListeners.push({ el: el, onEnt: onEnt, onLv: onLv });
+            });
+        }
+        rt.classList.add('ck-active-mode');
+        
+        function gL2() { return flt === null ? anc : Math.min(anc, flt); }
+        function gH2() { return flt === null ? anc : Math.max(anc, flt); }
+        
+        function cntS() {
+            if (anc === null) return { a: 0, u: 0, n: 0 };
+            var c = bCnt(arr, gL2(), gH2());
+            c.n = gH2() - gL2() + 1;
+            return c;
+        }
+        
+        function gBT() {
+            var isM = window.innerWidth < 480;
+            if (anc === null) return '點擊起點訊息';
+            var c = cntS();
+            if (isM) return flt === null ? '第 ' + (anc + 1) + ' 則 點擊終點' : '第 ' + (gL2() + 1) + ' → ' + (gH2() + 1) + ' 則 共 ' + c.n + ' 則';
+            return flt === null ? '🟢 第 ' + (anc + 1) + ' 則 ｜ 請繼續點擊終點' : '🟢 第 ' + (gL2() + 1) + ' 則 → 🔴 第 ' + (gH2() + 1) + ' 則 ｜ 共 ' + c.n + ' 則（角色 ' + c.a + '／玩家 ' + c.u + '）';
+        }
+        
+        var pM = new Map();
+        function uMk() {
+            if (mkTid) return;
+            mkTid = setTimeout(function() {
+                mkTid = null;
+                var lo = anc === null ? null : gL2(),
+                    hi = anc === null ? null : gH2();
+                Array.from(document.querySelectorAll('.message-container')).forEach(function(el) {
+                    var idx = gIdx(el), nx = '';
+                    if (lo !== null) {
+                        if (idx === lo && idx === hi) nx = 'cksel';
+                        else if (idx === lo) nx = 'cksel';
+                        else if (idx === hi) nx = 'ckend';
+                        else if (idx > lo && idx < hi) nx = 'ckmid';
+                    }
+                    var pv = pM.get(el) || '';
+                    if (pv === nx) return;
+                    if (pv) el.classList.remove(pv);
+                    if (nx) el.classList.add(nx);
+                    pM.set(el, nx);
+                });
+            }, 100);
+        }
+        
+        function svEl(idx) {
+            var els = Array.from(document.querySelectorAll('.message-container'));
+            for (var i = 0; i < els.length; i++) {
+                if (gIdx(els[i]) === idx) {
+                    els[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    return;
+                }
+            }
+        }
+        
+        function uBar() {
+            var rd = anc !== null;
+            bar.innerHTML = '<div class="ckbt1"><div class="ckbs">' + gBT() + '</div><button class="ckbn" id="__br">重設</button><button class="ckbg' + (rd ? ' on' : '') + '" id="__bd">完成選取</button><button class="ckbn" id="__bc">✕</button></div>';
+            bar.querySelector('#__bc').onclick = cUp;
+            bar.querySelector('#__br').onclick = function() {
+                anc = null;
+                flt = null;
+                uMk();
+                uBar();
+            };
+            bar.querySelector('#__bd').onclick = function() {
+                if (anc === null) return;
+                var lo = gL2(), hi = gH2();
+                cUp();
+                shCf(arr, lo, hi);
+            };
+        }
+        
+        function kH(e) {
+            if (e.key === 'Escape') { cUp(); return; }
+            var isM = window.innerWidth < 480;
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                if (isM) return;
+                if (anc === null) return;
+                var dr = e.key === 'ArrowUp' ? -1 : 1,
+                    cu = flt === null ? anc : flt;
+                flt = Math.max(0, Math.min(tot - 1, cu + dr));
+                svEl(flt);
+                uMk();
+                uBar();
+                e.preventDefault();
+            }
+        }
+        document.addEventListener('keydown', kH);
+        
+        function onCk(e) {
+            var el = e.target.closest('.message-container');
+            if (!el) return;
+            var idx = gIdx(el);
+            if (anc === null) {
+                anc = idx;
+                flt = null;
+            } else {
+                flt = idx;
+            }
+            uMk();
+            uBar();
+        }
+        rt.addEventListener('click', onCk);
+        
+        function cUp() {
+            if (obs) { obs.disconnect(); obs = null; }
+            if (mkTid) { clearTimeout(mkTid); mkTid = null; }
+            rt.classList.remove('ck-active-mode');
+            bar.remove();
+            tip.remove();
+            if (hk) hk.remove();
+            mcListeners.forEach(function(o) {
+                o.el.removeEventListener('mouseenter', o.onEnt);
+                o.el.removeEventListener('mouseleave', o.onLv);
+                o.el.__ckBound = false;
+            });
+            mcListeners = [];
+            document.removeEventListener('keydown', kH);
+            rt.removeEventListener('click', onCk);
+            Array.from(document.querySelectorAll('.message-container')).forEach(function(el) {
+                el.classList.remove('cksel', 'ckend', 'ckmid');
+            });
+            window.__CKX = null;
+        }
+        window.__CKX = cUp;
+        bindMC();
+        uBar();
+    }
+
+    // -------------------------------------------------------------------------
+    // 8. 狀態欄過濾系統核心 (字串正規化、清理規則邏輯)
+    // -------------------------------------------------------------------------
+
+    // 核心清理函式：傳入該訊息所有行數與規則陣列，回傳結果與被刪除行
+    function cL(lines, R) {
+        var result = [], deleted = [], rescued = [];
+        var eRules = R.filter(function(r) { return r.t === 'e'; }); // 例外規則
+        
+        // 檢查是否命中例外規則
+        function isExcept(tr) {
+            for (var ei = 0; ei < eRules.length; ei++) {
+                try { if (new RegExp(eRules[ei].v).test(tr)) return true; } catch (e) {}
+            }
+            return false;
+        }
+        
+        var i = 0;
+        while (i < lines.length) {
+            var ln = lines[i], tr = ln.trim(), matched = false;
+            
+            // 優先：如果命中例外，就強制保留
+            if (isExcept(tr)) {
+                var _er = eRules.find(function(e) {
+                    try { return new RegExp(e.v).test(tr); } catch (ex) { return false; }
+                });
+                rescued.push({ line: ln, rule: _er });
+                result.push(ln);
+                i++;
+                continue;
+            }
+            
+            // 區塊規則比對
+            for (var bi = 0; bi < R.length; bi++) {
+                var rule = R[bi];
+                if (rule.t !== 'b') continue;
+                
+                // 起點為空，代表從開頭就開始刪
+                if (rule.start === '') {
+                    matched = true;
+                    var bInfo = rule;
+                    deleted.push({ line: ln, rule: bInfo });
+                    i++;
+                    while (i < lines.length) {
+                        var bl = lines[i], bt = bl.trim();
+                        if (isExcept(bt)) {
+                            var _er2 = eRules.find(function(e) {
+                                try { return new RegExp(e.v).test(bt); } catch (ex) { return false; }
+                            });
+                            rescued.push({ line: bl, rule: _er2 });
+                            result.push(bl);
+                            i++;
+                            if (rule.end === '' || nQ(bt).indexOf(nQ(rule.end)) === 0) break;
+                            continue;
+                        }
+                        if (rule.end === '') {
+                            if (bt === '') {
+                                deleted.push({ line: bl, rule: bInfo });
+                                i++;
+                                break;
+                            }
+                            deleted.push({ line: bl, rule: bInfo });
+                            i++;
+                        } else {
+                            if (nQ(bt).indexOf(nQ(rule.end)) === 0) {
+                                deleted.push({ line: bl, rule: bInfo });
+                                i++;
+                                break;
+                            }
+                            deleted.push({ line: bl, rule: bInfo });
+                            i++;
+                        }
+                    }
+                    break;
+                }
+                
+                var ns = nQ(rule.start);
+                if (nQ(tr).indexOf(ns) === 0) {
+                    matched = true;
+                    bInfo = rule;
+                    deleted.push({ line: ln, rule: bInfo });
+                    i++;
+                    while (i < lines.length) {
+                        var bl2 = lines[i], bt2 = bl2.trim();
+                        if (isExcept(bt2)) {
+                            var _er3 = eRules.find(function(e) {
+                                try { return new RegExp(e.v).test(bt2); } catch (ex) { return false; }
+                            });
+                            rescued.push({ line: bl2, rule: _er3 });
+                            result.push(bl2);
+                            i++;
+                            if (rule.end === '' || nQ(bt2).indexOf(nQ(rule.end)) === 0) break;
+                            continue;
+                        }
+                        if (rule.end === '') {
+                            if (bt2 === '') {
+                                deleted.push({ line: bl2, rule: bInfo });
+                                i++;
+                                break;
+                            }
+                            deleted.push({ line: bl2, rule: bInfo });
+                            i++;
+                        } else {
+                            if (nQ(bt2).indexOf(nQ(rule.end)) === 0) {
+                                deleted.push({ line: bl2, rule: bInfo });
+                                i++;
+                                break;
+                            }
+                            deleted.push({ line: bl2, rule: bInfo });
+                            i++;
+                        }
+                    }
+                    break;
+                }
+            }
+            if (matched) continue;
+            
+            var delByRule = null;
+            // 前綴規則比對
+            for (var pi = 0; pi < R.length; pi++) {
+                var pr = R[pi];
+                if (pr.t === 'p' && nQ(tr).indexOf(nQ(pr.v)) === 0) {
+                    delByRule = pr;
+                    break;
+                }
+            }
+            // 正則規則比對
+            if (!delByRule) {
+                for (var ri = 0; ri < R.length; ri++) {
+                    var rr = R[ri];
+                    if (rr.t === 'r') {
+                        try {
+                            if (new RegExp(rr.v).test(tr)) {
+                                delByRule = rr;
+                                break;
+                            }
+                        } catch (e) {}
+                    }
+                }
+            }
+            
+            if (delByRule) {
+                deleted.push({ line: ln, rule: delByRule });
+            } else {
+                result.push(ln);
+            }
+            i++;
+        }
+        return { result: result, deleted: deleted };
+    }
+
+    // 正規化比對字串 (移除全形符號、emoji、並壓縮空白)
+    function nQ(s) {
+        if (!s) return '';
+        return s.replace(/[\u201c\u201d\u2018\u2019\u300c\u300d\u300e\u300f\uff02\uff07]/g, '"')
+                .replace(/\uff1a/g, ':')
+                .replace(/[\u{1f000}-\u{1ffff}\u{2600}-\u{27ff}]/gu, '')
+                .replace(/[^\S\r\n]+/g, ' ')
+                .trim();
+    }
+
+    // 取得單行的特徵前綴
+    function gPfx(line) {
+        var s = nQ(line);
+        s = s.replace(/^[\*\#\>\-\=\~\u25b4\u25b8\u25ba\u2605\u25c6\s]+/, '');
+        var ci = s.search(/[\uff1a:]/);
+        if (ci >= 1 && ci <= 15) {
+            return nQ(line.slice(0, line.search(/[\uff1a:]/) + 1));
+        }
+        if (s.length === 0) return null;
+        return nQ(line.slice(0, Math.min(12, line.length)));
+    }
+
+    // 判斷是否為純框線行
+    function isBdr(line) {
+        return /^[\s\*\=\-\─\━\─\u2500-\u257f]{3,}$/.test(line.trim());
+    }
+
+    // 自動偵測狀態欄規則的核心 (透過交集比對)
+    function autoDetect(samples) {
+        var sets = [];
+        samples.forEach(function(sm) {
+            var lines = sm.split('\n');
+            var pfxSet = {};
+            lines.forEach(function(ln) {
+                if (isBdr(ln)) return;
+                var p = gPfx(ln);
+                if (p && p.length > 0) pfxSet[p] = true;
+            });
+            sets.push(pfxSet);
+        });
+        if (!sets.length) return [];
+        var common = Object.keys(sets[0]);
+        for (var i = 1; i < sets.length; i++) {
+            common = common.filter(function(k) { return sets[i][k]; });
+        }
+        return common.map(function(v) { return { t: 'p', v: v, a: true }; });
+    }
+
+    // 本機端 localStorage 儲存 key
+    function flLsKey() {
+        return 'ckFl_' + location.hostname + location.pathname;
+    }
+
+    function flSave(R) {
+        try {
+            localStorage.setItem(flLsKey(), JSON.stringify(R.filter(function(r) { return !r.a; })));
+        } catch (e) {}
+    }
+
+    function flLoad() {
+        try {
+            var s = localStorage.getItem(flLsKey());
+            return s ? JSON.parse(s) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // 9. 狀態欄過濾規則編輯介面 (Modal)
+    // -------------------------------------------------------------------------
+
+    function shFlModal(arr, lo, hi, fmt, ws, af, iA, iS, oA, noU) {
+        var aN = gAN();
+        var R = flLoad();
+        
+        // 抓取範圍內的 AI 訊息作為樣本
+        var aiMsgs = [];
+        for (var i = lo; i <= hi; i++) {
+            if (arr[i] && isAI(arr[i])) aiMsgs.push({ idx: i, msg: arr[i] });
+        }
+        
+        var autoSamples = [];
+        if (aiMsgs.length >= 1) {
+            var picks = [];
+            if (aiMsgs.length === 1) {
+                picks = [0];
+            } else if (aiMsgs.length === 2) {
+                picks = [0, aiMsgs.length - 1];
+            } else {
+                picks = [0, Math.floor((aiMsgs.length - 1) / 2), aiMsgs.length - 1];
+            }
+            picks.forEach(function(p) {
+                var m = aiMsgs[p];
+                autoSamples.push({ label: '第 ' + (m.idx + 1) + ' 則（自動）', text: m.msg.content || m.msg.message || m.msg.text || '' });
+            });
+        }
+        
+        var manSamples = [];
+        var allSamples = autoSamples.concat(manSamples);
+        var curTab = 0;
+        var ruleTab = 'p';
+        
+        // 建立畫面
+        var o = document.createElement('div');
+        o.className = 'cko';
+        o.style.alignItems = 'flex-start';
+        o.style.paddingTop = '20px';
+        
+        var w = document.createElement('div');
+        w.style.cssText = 'background:#131313;border-radius:16px;width:94%;max-width:680px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.5);color:#fff;font-family:sans-serif;animation:ckI .25s ease;overflow:hidden;';
+        
+        function ruleLabel(r) {
+            var colors = { p: '#1e4d8c', r: '#7c3a00', b: '#3a1e6e', e: '#1e6e3a' };
+            var bg = colors[r.t] || '#333';
+            var names = { p: '前綴', r: '正則', b: '區塊', e: '例外' };
+            var nm = names[r.t] || '?';
+            var _rv = r.v || '';
+            var _rd = {
+                '^\\*✦\\d': '*✦數字開頭行',
+                '^\\*✦\\d+月': '*✦月份日期行',
+                '^\\*\\d{4}\\/': '年份時間行（2026/...）',
+                '^\\*\\*\\*': '*** 分隔線',
+                '^【': '【開頭行',
+                '^\\|': '表格行',
+                '^[-─━]{3,}': '--- 橫線分隔',
+                '^\\d+[\\/\\-]\\d+[\\/\\-]\\d+': '日期格式行',
+                '^\\*✦\\d{4}': '*✦年份開頭行'
+            };
+            var _rn = _rd[_rv] || _rv;
+            var txt = r.t === 'b' ? (r.start ? nm + ' ' + r.start + '→' + (r.end || '空行') : nm + ' 從頭→' + (r.end || '空行')) : r.t === 'e' ? ('例外保留 ' + _rn) : (nm + ' ' + _rn);
+            return '<span style="display:inline-flex;align-items:center;gap:4px;background:' + bg + ';border-radius:6px;padding:3px 8px;font-size:11px;cursor:default;margin:2px;" title="' + txt.replace(/"/g, '&quot;') + '">' + txt + (r.a ? '<span style="width:5px;height:5px;border-radius:50%;background:#4caf50;display:inline-block;margin-left:3px;"></span>' : '') + '<span data-del style="margin-left:4px;cursor:pointer;color:#aaa;">×</span></span>';
+        }
+        
+        function rdrRuleList(el) {
+            el.innerHTML = '';
+            if (!R.length) {
+                el.innerHTML = '<span style="font-size:12px;color:#555;">尚無規則</span>';
+                return;
+            }
+            var h = '';
+            R.forEach(function(r, ri) { h += ruleLabel(r); });
+            el.innerHTML = h;
+            el.querySelectorAll('[data-del]').forEach(function(btn, ri) {
+                btn.onclick = function(e) {
+                    e.stopPropagation();
+                    R.splice(ri, 1);
+                    flSave(R);
+                    rdrAll();
+                };
+            });
+        }
+        
+        function previewSample(text, container, statEl) {
+            var lines = text.split('\n');
+            var out = cL(lines, R);
+            var h = '';
+            lines.forEach(function(ln, li) {
+                var isDel = out.deleted.some(function(d) { return d.line === ln && lines.indexOf(ln) === li; });
+                var bg = isDel ? 'rgba(252,60,123,0.18)' : 'rgba(76,175,80,0.08)';
+                var col = isDel ? '#fc3c7b' : '#c8c8d0';
+                h += '<div data-li="' + li + '" style="font-size:12px;padding:2px 6px;border-radius:4px;margin:1px 0;background:' + bg + ';color:' + col + ';cursor:' + (isDel ? 'pointer' : 'default') + ';white-space:pre-wrap;word-break:break-all;">' + escH(ln) + '</div>';
+            });
+            container.innerHTML = h;
+            statEl.textContent = '共 ' + lines.length + ' 行，刪除 ' + out.deleted.length + ' 行，保留 ' + out.result.length + ' 行';
+            
+            // 點擊可以顯示這行是被哪條規則刪除的
+            container.querySelectorAll('[data-li]').forEach(function(div) {
+                var li = parseInt(div.dataset.li);
+                var ln = lines[li];
+                var dInfo = out.deleted.find(function(d) { return d.line === ln; });
+                var rInfo = out.rescued ? out.rescued.find(function(d) { return d.line === ln; }) : null;
+                if (!dInfo && !rInfo) return;
+                
+                var open = false;
+                div.onclick = function() {
+                    open = !open;
+                    var ex = div.querySelector('.ck-rule-ex');
+                    if (open) {
+                        if (!ex) {
+                            ex = document.createElement('div');
+                            ex.className = 'ck-rule-ex';
+                            if (rInfo && rInfo.rule) {
+                                var er = rInfo.rule;
+                                var erv = er.v || '';
+                                ex.style.cssText = 'font-size:10px;color:#4caf50;margin-top:2px;padding:2px 6px;background:#1a1a1a;border-radius:4px;';
+                                ex.textContent = '例外規則「' + erv + '」救回';
+                            } else if (dInfo) {
+                                var r = dInfo.rule;
+                                var names = { p: '前綴規則', r: '正則規則', b: '區塊規則', e: '例外規則' };
+                                var nm = names[r.t] || '規則';
+                                var rv = r.t === 'b' ? r.start + '→' + (r.end || '空行') : r.v || '';
+                                ex.style.cssText = 'font-size:10px;color:#888;margin-top:2px;padding:2px 6px;background:#1a1a1a;border-radius:4px;';
+                                ex.textContent = nm + '「' + rv + '」';
+                            }
+                            div.appendChild(ex);
+                        } else ex.style.display = '';
+                    } else {
+                        if (ex) ex.style.display = 'none';
+                    }
+                };
+            });
+        }
+        
+        function escH(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        
+        // 渲染樣本頁籤與預覽區
+        function rdrSampleTabs(tabsEl, preEl, statEl) {
+            tabsEl.innerHTML = '';
+            allSamples.forEach(function(sm, si) {
+                var btn = document.createElement('button');
+                btn.textContent = sm.label;
+                btn.style.cssText = 'padding:5px 10px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;margin-right:4px;margin-bottom:4px;transition:all .2s;background:' + (si === curTab ? '#fc3c7b' : '#1f1f20') + ';color:' + (si === curTab ? '#fff' : '#aaa');
+                btn.onclick = function() {
+                    curTab = si;
+                    rdrAll();
+                };
+                var rmBtn = document.createElement('span');
+                rmBtn.textContent = '×';
+                rmBtn.style.cssText = 'margin-left:4px;cursor:pointer;color:' + (si === curTab ? 'rgba(255,255,255,.7)' : '#555');
+                rmBtn.onclick = function(e) {
+                    e.stopPropagation();
+                    if (si < autoSamples.length) autoSamples.splice(si, 1);
+                    else manSamples.splice(si - autoSamples.length, 1);
+                    allSamples = autoSamples.concat(manSamples);
+                    if (curTab >= allSamples.length) curTab = Math.max(0, allSamples.length - 1);
+                    rdrAll();
+                };
+                btn.appendChild(rmBtn);
+                tabsEl.appendChild(btn);
+            });
+            if (!allSamples.length) {
+                preEl.innerHTML = '<span style="color:#555;font-size:12px;">尚無樣本</span>';
+                statEl.textContent = '';
+                return;
+            }
+            var sm = allSamples[curTab] || allSamples[0];
+            previewSample(sm.text, preEl, statEl);
+        }
+        
+        // 渲染「新增規則」輸入區
+        function rdrRuleInput(el) {
+            var tabs = { p: '前綴', r: '正則', b: '區塊', e: '例外' };
+            var tH = '<div style="display:flex;gap:4px;background:#1f1f20;border-radius:10px;padding:4px;margin-bottom:10px;">';
+            Object.keys(tabs).forEach(function(k) {
+                tH += '<button data-rt="' + k + '" style="flex:1;padding:6px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;background:' + (ruleTab === k ? '#fc3c7b' : 'transparent') + ';color:' + (ruleTab === k ? '#fff' : '#aaa') + ';">' + tabs[k] + '</button>';
+            });
+            tH += '</div>';
+            
+            var body = '';
+            if (ruleTab === 'p') {
+                body = '<div style="display:flex;gap:6px;"><input id="__flpi" placeholder="行首字串，例如：【" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;"><button id="__flpa" style="padding:8px 14px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">新增</button></div>';
+            } else if (ruleTab === 'r') {
+                body = '<div style="display:flex;gap:6px;margin-bottom:6px;"><input id="__flri" placeholder="輸入要比對的字詞或格式" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;"><button id="__flra" style="padding:8px 14px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">新增</button></div><div style="font-size:11px;color:#888;line-height:1.7;margin-bottom:8px;padding:8px 10px;background:#1f1f20;border-radius:8px;">正則是一種「格式比對」工具，可以描述文字的規律而不是固定內容。<br>例如「開頭是星號＋數字年份」這種規律就很適合用正則。<br>下方快速鍵可以直接點選常用格式。</div><div style="font-size:11px;color:#666;margin-bottom:4px;">常用快速格式</div><div style="display:flex;flex-wrap:wrap;gap:4px;"><button class="__flrq" data-v="^\\*✦\\d" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">*✦數字 開頭行（如 *✦3月）</button><button class="__flrq" data-v="^\\*\\d{4}\\/" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">*2026/... 年份時間行</button><button class="__flrq" data-v="^\\*\\*\\*" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">*** 分隔線</button><button class="__flrq" data-v="^【" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">【 開頭行</button><button class="__flrq" data-v="^\\|" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">| 表格行</button><button class="__flrq" data-v="^[-─━]{3,}" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">--- 橫線分隔</button><button class="__flrq" data-v="^\\d+[/\\-]\\d+[/\\-]\\d+" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">日期格式行（2026-01-01）</button></div>';
+            } else if (ruleTab === 'b') {
+                body = '<div style="font-size:11px;color:#888;line-height:1.7;margin-bottom:8px;padding:8px 10px;background:#1f1f20;border-radius:8px;">區塊規則：從「起點」開始刪，一直刪到「終點」那一行（含）。<br><span style="color:#aaa;">起點留空</span>：從訊息最開頭就開始刪，直到遇到終點。<br><span style="color:#aaa;">終點留空</span>：刪到下一個空白行為止。</div><div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;gap:6px;flex-wrap:wrap;"><input id="__flbs" placeholder="起點（留空＝從頭開始）" style="flex:1;min-width:120px;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;box-sizing:border-box;"><input id="__flbe" placeholder="終點（留空＝刪到空行）" style="flex:1;min-width:120px;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;box-sizing:border-box;"></div><button id="__flba" style="padding:8px 14px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:13px;font-weight:700;cursor:pointer;align-self:flex-start;">新增</button></div>';
+            } else if (ruleTab === 'e') {
+                body = '<div style="font-size:11px;color:#888;line-height:1.7;margin-bottom:8px;padding:8px 10px;background:#1f1f20;border-radius:8px;">例外規則：即使這一行符合前面的刪除規則，只要也符合這裡的格式，就<span style="color:#4caf50;font-weight:700;">強制保留</span>。<br>使用格式比對（同正則分頁）。<br>例如：前綴規則刪掉所有 *✦ 開頭的行，但你想保留日期行，就在這裡加上 ^\\*✦\\d+月。</div><div style="display:flex;gap:6px;margin-bottom:6px;"><input id="__flei" placeholder="輸入要豁免的字詞或格式" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #38383a;background:#1f1f20;color:#fff;font-size:13px;"><button id="__flea" style="padding:8px 14px;border-radius:8px;border:none;background:#4caf50;color:#111;font-size:13px;font-weight:700;cursor:pointer;">新增</button></div><div style="font-size:11px;color:#666;margin-bottom:4px;">常用例外快速格式</div><div style="display:flex;flex-wrap:wrap;gap:4px;"><button class="__fleq" data-v="^\\*✦\\d+月" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">*✦月份日期行（如 *✦3月23日）</button><button class="__fleq" data-v="^\\*✦\\d{4}" style="padding:4px 8px;border-radius:6px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:11px;cursor:pointer;">*✦年份開頭行</button></div>';
+            }
+            el.innerHTML = tH + body;
+            
+            el.querySelectorAll('[data-rt]').forEach(function(b) {
+                b.onclick = function() {
+                    ruleTab = this.dataset.rt;
+                    rdrAll();
+                };
+            });
+            
+            // 各分頁的新增按鈕邏輯
+            var flpa = el.querySelector('#__flpa');
+            if (flpa) flpa.onclick = function() {
+                var v = el.querySelector('#__flpi').value.trim();
+                if (!v) return;
+                R.push({ t: 'p', v: v, a: false });
+                flSave(R);
+                el.querySelector('#__flpi').value = '';
+                rdrAll();
+            };
+            
+            var flra = el.querySelector('#__flra');
+            if (flra) flra.onclick = function() {
+                var v = el.querySelector('#__flri').value.trim();
+                if (!v) return;
+                try { new RegExp(v); } catch (e) { alert('正則格式錯誤：' + e.message); return; }
+                R.push({ t: 'r', v: v, a: false });
+                flSave(R);
+                el.querySelector('#__flri').value = '';
+                rdrAll();
+            };
+            
+            el.querySelectorAll('.__flrq').forEach(function(b) {
+                b.onclick = function() {
+                    var inp = el.querySelector('#__flri');
+                    if (inp) inp.value = this.dataset.v;
+                };
+            });
+            
+            var flba = el.querySelector('#__flba');
+            if (flba) flba.onclick = function() {
+                var s = el.querySelector('#__flbs').value.trim();
+                var e2 = el.querySelector('#__flbe').value.trim();
+                R.push({ t: 'b', start: s, end: e2, a: false });
+                flSave(R);
+                el.querySelector('#__flbs').value = '';
+                el.querySelector('#__flbe').value = '';
+                rdrAll();
+            };
+            
+            var flea = el.querySelector('#__flea');
+            if (flea) flea.onclick = function() {
+                var v = el.querySelector('#__flei').value.trim();
+                if (!v) return;
+                try { new RegExp(v); } catch (e) { alert('格式錯誤：' + e.message); return; }
+                R.push({ t: 'e', v: v, a: false });
+                flSave(R);
+                el.querySelector('#__flei').value = '';
+                rdrAll();
+            };
+            
+            el.querySelectorAll('.__fleq').forEach(function(b) {
+                b.onclick = function() {
+                    var inp = el.querySelector('#__flei');
+                    if (inp) inp.value = this.dataset.v;
+                };
+            });
+            
+            var flekb = el.querySelector('#__flekb');
+            if (flekb) flekb.onclick = function() {
+                var kw = el.querySelector('#__flekw').value.trim();
+                if (!kw) return;
+                var escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                R.push({ t: 'e', v: '.*' + escaped + '.*', a: false });
+                flSave(R);
+                el.querySelector('#__flekw').value = '';
+                rdrAll();
+            };
+        }
+        
+        var html = '<div style="padding:18px 20px 12px;border-bottom:1px solid #242424;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;"><div style="font-size:17px;font-weight:700;">狀態欄過濾規則</div><button id="__flcl" style="background:none;border:none;color:#666;font-size:22px;cursor:pointer;">×</button></div><div style="flex:1;overflow-y:auto;padding:16px 20px 20px;display:flex;flex-direction:column;gap:14px;"><div style="background:#1a1a1a;border-radius:10px;padding:12px 14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;font-weight:600;">樣本預覽</span><button id="__fladd" style="padding:4px 10px;border-radius:8px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:12px;cursor:pointer;">＋ 新增樣本</button></div><div id="__fltabs" style="display:flex;flex-wrap:wrap;margin-bottom:8px;"></div><div id="__flpre" style="max-height:160px;overflow-y:auto;border-radius:6px;padding:4px;background:#111;"></div><div id="__flstat" style="font-size:11px;color:#555;margin-top:6px;"></div></div><div style="background:#1a1a1a;border-radius:10px;padding:12px 14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;font-weight:600;">規則列表</span><button id="__flauto" style="padding:4px 10px;border-radius:8px;border:none;background:#4caf50;color:#111;font-size:12px;font-weight:700;cursor:pointer;">自動偵測</button></div><div id="__flrl" style="display:flex;flex-wrap:wrap;gap:2px;min-height:28px;"></div></div><div style="background:#1a1a1a;border-radius:10px;padding:12px 14px;"><div style="font-size:13px;font-weight:600;margin-bottom:8px;">新增規則</div><div id="__flri2"></div></div></div><div style="padding:14px 20px;border-top:1px solid #242424;display:flex;gap:10px;flex-shrink:0;"><button id="__flcan" style="flex:1;padding:11px;border-radius:10px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:14px;font-weight:700;cursor:pointer;">取消</button><button id="__flok" style="flex:2;padding:11px;border-radius:10px;border:none;background:#fc3c7b;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">確認套用並匯出</button></div>';
+        w.innerHTML = html;
+        o.appendChild(w);
+        document.body.appendChild(o);
+        
+        var tabsEl = w.querySelector('#__fltabs'),
+            preEl = w.querySelector('#__flpre'),
+            statEl = w.querySelector('#__flstat'),
+            rlEl = w.querySelector('#__flrl'),
+            riEl = w.querySelector('#__flri2');
+            
+        function rdrAll() {
+            allSamples = autoSamples.concat(manSamples);
+            rdrSampleTabs(tabsEl, preEl, statEl);
+            rdrRuleList(rlEl);
+            rdrRuleInput(riEl);
+        }
+        
+        w.querySelector('#__flcl').onclick = function() { o.remove(); };
+        w.querySelector('#__flcan').onclick = function() { o.remove(); };
+        
+        w.querySelector('#__fladd').onclick = function() {
+            var ta = document.createElement('textarea');
+            ta.placeholder = '貼入任意對話文字…';
+            ta.style.cssText = 'width:100%;height:100px;background:#1f1f20;border:1px solid #38383a;border-radius:8px;color:#fff;font-size:12px;padding:8px;box-sizing:border-box;resize:vertical;margin-top:8px;';
+            var wrap = document.createElement('div');
+            wrap.style.cssText = 'background:#1a1a1a;border-radius:10px;padding:12px 14px;';
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;gap:6px;margin-top:6px;';
+            var ok = document.createElement('button');
+            ok.textContent = '確認加入';
+            ok.style.cssText = 'padding:6px 12px;border-radius:8px;border:none;background:#fc3c7b;color:#fff;font-size:12px;cursor:pointer;';
+            var cn = document.createElement('button');
+            cn.textContent = '取消';
+            cn.style.cssText = 'padding:6px 12px;border-radius:8px;border:1px solid #38383a;background:transparent;color:#c8c8d0;font-size:12px;cursor:pointer;';
+            
+            row.appendChild(ok);
+            row.appendChild(cn);
+            wrap.appendChild(ta);
+            wrap.appendChild(row);
+            w.querySelector('div[style*="overflow-y:auto"]').insertBefore(wrap, w.querySelector('#__flri2').parentNode);
+            
+            ok.onclick = function() {
+                var v = ta.value.trim();
+                if (!v) { wrap.remove(); return; }
+                manSamples.push({ label: '手動樣本 ' + (manSamples.length + 1), text: v });
+                curTab = autoSamples.length + manSamples.length - 1;
+                wrap.remove();
+                rdrAll();
+            };
+            cn.onclick = function() { wrap.remove(); };
+        };
+        
+        // 點擊自動偵測邏輯
+        w.querySelector('#__flauto').onclick = function() {
+            R = R.filter(function(r) { return !r.a; });
+            var sampleTexts = allSamples.map(function(s) { return s.text; });
+            var detected = autoDetect(sampleTexts);
+            R = R.concat(detected);
+            flSave(R);
+            var msg = w.querySelector('#__automsg');
+            if (!msg) {
+                msg = document.createElement('div');
+                msg.id = '__automsg';
+                msg.style.cssText = 'font-size:11px;color:#4caf50;margin-top:6px;';
+                rlEl.parentNode.appendChild(msg);
+            }
+            msg.textContent = '已偵測 ' + detected.length + ' 條規則。若有 *2026/6/5... 類時間行，請到正則分頁手動新增。';
+            rdrAll();
+        };
+        
+        // 確認套用並將清理好的內容丟給實際的匯出函式 dExp
+        w.querySelector('#__flok').onclick = function() {
+            o.remove();
+            var arrCopy = arr.map(function(m) { return Object.assign({}, m); }); // 淺複製
+            for (var i = lo; i <= hi; i++) {
+                if (arrCopy[i] && isAI(arrCopy[i])) {
+                    var ct = arrCopy[i].content || arrCopy[i].message || arrCopy[i].text || '';
+                    var lines = ct.split('\n');
+                    var cleaned = cL(lines, R).result;
+                    var joined = cleaned.join('\n');
+                    if (arrCopy[i].content !== undefined) arrCopy[i].content = joined;
+                    else if (arrCopy[i].message !== undefined) arrCopy[i].message = joined;
+                    else arrCopy[i].text = joined;
+                }
+            }
+            dExp(arrCopy, lo, hi, fmt, ws, af, iA, iS, oA, noU);
+        };
+        rdrAll();
+    }
+
+    // -------------------------------------------------------------------------
+    // 10. 程式進入點 (主選單)
+    // -------------------------------------------------------------------------
+
+    function shMain(arr) {
+        var o = document.createElement('div');
+        o.className = 'cko';
+        var w = document.createElement('div');
+        w.className = 'ckb';
+        w.innerHTML = '<div class="ckt" style="margin-bottom:4px;">📤 匯出對話紀錄</div><div class="cks">已載入 ' + arr.length + ' 則訊息，請選擇匯出模式</div><div style="display:flex;gap:10px;margin-bottom:8px;"><button class="ckmb" id="__m1">📅<br><span style="font-size:12px;margin-top:4px;display:block;">時間範圍</span></button><button class="ckmb" id="__m2">🖱️<br><span style="font-size:12px;margin-top:4px;display:block;">點選範圍</span></button><button class="ckmb" id="__m3">📋<br><span style="font-size:12px;margin-top:4px;display:block;">全部匯出</span></button><button class="ckmb" id="__m4">💭<br><span style="font-size:12px;margin-top:4px;display:block;">好感度紀錄</span></button></div><div class="ckbr" style="margin-top:16px;"><button class="ckbt" id="__mc">取消</button></div>';
+        o.appendChild(w);
+        document.body.appendChild(o);
+        
+        w.querySelector('#__mc').onclick = function() { o.remove(); };
+        w.querySelector('#__m1').onclick = function() { o.remove(); modeTime(arr); };
+        w.querySelector('#__m2').onclick = function() { o.remove(); mClick(arr); };
+        w.querySelector('#__m3').onclick = function() { o.remove(); shCf(arr, 0, arr.length - 1); };
+        w.querySelector('#__m4').onclick = function() {
+            o.remove();
+            var ov = shOv('正在載入心聲資料…');
+            ldAff().then(function(af) {
+                ov.remove();
+                if (!af.length) {
+                    alert('找不到心聲資料。');
+                    return;
+                }
+                shAfModal(af, gAN(), arr);
+            });
+        };
+    }
+
+    // -------------------------------------------------------------------------
+    // 11. 啟動腳本
+    // -------------------------------------------------------------------------
+    
+    // 先抓取所有對話紀錄，成功後顯示彩蛋，再進入主選單
+    fAll().then(function(arr) {
+        if (!arr || arr.length === 0) {
+            alert('抓取失敗或對話為空');
+            return;
+        }
+        shEg(arr, function() {
+            shMain(arr);
+        });
+    });
+
+})();
+
+
 
