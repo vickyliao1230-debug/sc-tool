@@ -651,10 +651,10 @@ var subTabs = { r:'lazy', b:'lazy', e:'lazy', rep:'lazy' };
             }
         } else if (ruleTab === 'rep') {
             if(st === 'lazy') {
-                body = '<div style="font-size:11px;color:#c8c8d0;margin-bottom:12px;padding:12px 14px;background:#1a1a1a;border-radius:12px;border:1px solid #38383a;">將指定的純文字無腦替換成新文字。</div><div style="display:flex;gap:8px;margin-bottom:8px;"><input id="__flrep_txt_s" placeholder="搜尋：要被替換的文字" class="ckinp"></div><div style="display:flex;gap:8px;margin-bottom:16px;"><input id="__flrep_txt_r" placeholder="替換成：新的文字" class="ckinp"><button id="__flrepa_txt" style="padding:10px 16px;border-radius:8px;border:none;background:'+tabCol+';color:#111;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;">新增純文字替換</button></div>';
+                body = '<div style="font-size:11px;color:#c8c8d0;margin-bottom:12px;padding:12px 14px;background:#1a1a1a;border-radius:12px;border:1px solid #38383a;">將指定的純文字無腦替換成新文字。</div><div style="display:flex;gap:8px;margin-bottom:8px;"><input id="__flrep_txt_s" placeholder="搜尋：要被替換的文字" class="ckinp"></div><div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"><input id="__flrep_txt_r" placeholder="替換成：新的文字" class="ckinp" style="flex:1;"><button id="__flrepa_txt" style="padding:10px 16px;border-radius:8px;border:none;background:'+tabCol+';color:#111;font-size:14px;font-weight:700;cursor:pointer;">替換</button></div>';
             } else {
                 // UI 舉例文字已替換為 巳時 的例子
-                body = '<div style="font-size:11px;color:#c8c8d0;margin-bottom:12px;padding:12px 14px;background:#1a1a1a;border-radius:12px;border:1px solid #38383a;">使用正則的 <code>$1</code> 捕獲組進行進階文字替換。</div><div style="display:flex;gap:8px;margin-bottom:8px;"><input id="__flrepv" placeholder="搜尋正則 (如：巳時\\((.*?)\\))" class="ckinp" style="font-family:monospace;"></div><div style="display:flex;gap:8px;margin-bottom:12px;"><input id="__flrepr" placeholder="替換為 (如：早上 $1)" class="ckinp" style="font-family:monospace;"><button id="__flrepa" style="padding:10px 16px;border-radius:8px;border:none;background:'+tabCol+';color:#111;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;">新增正則替換</button></div>';
+                body = '<div style="font-size:11px;color:#c8c8d0;margin-bottom:12px;padding:12px 14px;background:#1a1a1a;border-radius:12px;border:1px solid #38383a;">使用正則的 <code>$1</code> 捕獲組進行進階文字替換。</div><div style="display:flex;gap:8px;margin-bottom:8px;"><input id="__flrepv" placeholder="搜尋正則 (如：巳時\\((.*?)\\))" class="ckinp" style="font-family:monospace;"></div><div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;"><input id="__flrepr" placeholder="替換為 (如：早上 $1)" class="ckinp" style="font-family:monospace;flex:1;"><button id="__flrepa" style="padding:10px 16px;border-radius:8px;border:none;background:'+tabCol+';color:#111;font-size:14px;font-weight:700;cursor:pointer;">替換</button></div>';
             }
         }
         
@@ -742,6 +742,8 @@ function shMain(arr){var o=document.createElement('div');o.className='cko';var w
 
 fAll().then(function(arr){if(!arr||arr.length===0){alert('抓取失敗或對話為空');return;}shEg(arr,function(){shMain(arr);});});
 })();
+
+
 
 
 
